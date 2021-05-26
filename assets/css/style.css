@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700|Exo:100,200,300,400,500,600,700');
+<link href="https://fonts.googleapis.com/css2?family=Lato&family=Oswald&display=swap" rel="stylesheet">
+.club description{
+font-size: 350px;
+font-style: italic;
+font-display: swap;
+}
+@font-face {
+font-size: 350px;
+font-style: italic;
+font-display: swap;
+}
+/*--------------------------------------------Colors*/
+.bg-color-name-title {
+background-color: #676767;
+}
+.bg-color-skills {
+background-color: #ffffff;
+}
+/*---------------Body background color & font */
+.bg-color-contact {
+background-color: #f8f9f8ff;
+}
+body {
+font-family: 'Inconsolata', monospace;
+font-weight: 300;
+background-color: #580868;
+color: #555555;
+}
+/*--------------------------------------------Special Paddings/Margins/Text*/
+.uppercase {
+text-transform: uppercase;
+}
+.row-table {
+display: table;
+}
+.history-heading,
+.section-heading {
+font-family: "Exo", sans-serif;
+font-weight: 300;
+margin-top: 25px;
+margin-bottom: 40px;
+}
+/*--------------------------------------------Heading*/
+header {
+margin: 0;
+}
+.heading {
+margin-left: 50px;
+}
+/*--------------------------------------------Hover.css*/
+.hvr-sweep-to-bottom:before {
+background: rgba(0, 0, 0, 0.2);
+height: 120px;
+}
+
+/*--------------------------------------------Cards*/
+.card {
+position: relative;
+display: -ms-flexbox;
+display: flex;
+-ms-flex-direction: column;
+flex-direction: column;
+min-width: 0;
+word-wrap: normal;
+background-color: #fff;
+background-clip: border-box;
+border: 1px solid rgba(0,0,0,.125);
+border-radius: .1rem;
+}
+/*--------------------------------------------Media Queries*/
+@media(min-width: 992px) {
+.section-column {
+padding: 0 30px 30px;
+float: none;
+display: table-cell}
+#map {
+height: 100%;
+}
+#map-div, #map-section {
+height: 500px;
+}
+}
+
+/*--------------------------------------------Map*/
+#map {
+height: 100%;
+}
+#map-div, #map-section {
+height: 500px;
+}
+/*--------------------------------------------Search Bar*/
+.search-container{
+background-color: #3D3D3D;
+height: max-content;
+padding-bottom: 3rem;
+}
+.search-bar{
+width: 100%;
+border: 2px solid #3D3D3D;
+}
+input::placeholder {
+color: #3D3D3D;
+font-family: "Open Sans", sans-serif;
+}
+#rating {
+font-size: 13px;
+font-family: "Open Sans", sans-serif;
+}
+#myInput {
+background-image: url('/css/searchicon.png');
+background-position: 10px 12px;
+background-repeat: no-repeat;
+width: 100%;
+font-size: 16px;
+padding: 12px 20px 12px 40px;
+border: 1px solid #ddd;
+margin-bottom: 12px;
+}
+
+
+#main-h1 {
+color: white;
+}
+ /*map height explicitly for definition of size of div */
+#map {
+height: 60%;
+}
+/* Map styling */
+html,
+body {
+height: 100%;
+margin: 0;
+padding: 0;
+}
+.controls {
+background-color: #fff;
+border-radius: 2px;
+border: 1px solid transparent;
+box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+box-sizing: border-box;
+font-family: Roboto;
+font-size: 15px;
+font-weight: 300;
+height: 29px;
+margin-left: 17px;
+margin-top: 10px;
+outline: none;
+padding: 0 11px 0 13px;
+text-overflow: ellipsis;
+width: 400px;
+}
+.controls:focus {
+border-color: #4d90fe;
+}
+.title {
+font-weight: bold;
+}
+#infowindow-content {
+display: none;
+}
+#map #infowindow-content {
+display: inline;
+}
