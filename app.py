@@ -5,6 +5,10 @@ from wtforms.validators import InputRequired, Email, Length
 
 app = Flask(__name__)
 
+class LoginForm(FlaskForm):
+    username = StringField('username', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=40)])
+    remember = BooleanField('remember me')
 
 @app.route("/")
 def template_test():
@@ -13,7 +17,9 @@ def template_test():
 
 @app.route("/login")
 def login():
-    return render_template("login.html")
+    form = LoginForm()
+
+    return render_template("login.html", form=form)
 
 
 @app.route("/register")

@@ -5,9 +5,7 @@
 
 <div class="row-reg">
 <form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('login') }}">
-    <div class="form-group">
-        <input type="text" class="form-control item" id="username" placeholder="Username">
-    </div>
+    {{ form.hidden_tag() }}
     <div class="form-group">
         <input type="password" class="form-control item" id="password" placeholder="Password">
     </div>
