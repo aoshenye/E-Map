@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h3 class="center-align">Register</h3>
+
+<div class="row">
+<form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('register') }}">
+   <p>Register a username to log in and leave a review of any of the featured Barbers here. Thanks</p>
+        <label for="name">Username</label>
+   <input id="username" type="text" name="username" class="validate">
+          <label for="password">Password</label>
+   <input id="password" type="password" password="password" class="validate" name="password">
+   <button type="submit" style="align-items: center;">Register</button>
+</form>
+</div>
+
+<div class="row">
+    <div class="col s12">
+        <p class="center-align"><a href="" class="class"><a href="{{ url_for('login') }}" class="href">Log in here</a>    
+        </a></p>
+            
+    </div>
+   <!-- register -->
+
+{% endblock %}
