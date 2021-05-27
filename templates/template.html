@@ -1,12 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    HELLO WORLD!
-</body>
-</html>
+{% extends "layout.html" %}
+{% block content %}
+  <h3> This is the start of my child template</h3>
+  <br>
+  <p>My string: {{my_string}}</p>
+  <p>Value from the list: {{my_list[3]}}</p>
+  <p>Loop through the list:</p>
+  <ul>
+    {% for n in my_list %}
+    <li>{{n}}</li>
+    {% endfor %}
+  </ul>
+  <h3> This is the end of my child template</h3>
+  {% block footer %}
+
+  {% endblock %}
+{% endblock %}
