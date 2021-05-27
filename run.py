@@ -62,5 +62,18 @@ def register():
     return render_template("register.html")
 
 
+@app.route("/profile", methods=["GET", "POST"])
+def profile():
+    # grab the session user's username from db
+    username = mongo.db.users.find_one(
+        {"username": session["user"]})["username"]
+
+    if session["user"]:
+        reviews = mongo.db.reviews.find({"author": username})
+        return render_template("profile.html", review=reviews)
+    return redirect(url_for("login"))
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

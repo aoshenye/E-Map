@@ -153,11 +153,11 @@ display: inline;
 }
 
 /*REGISTRATION FORM*/
-.row-reg{
+.row-reg-1 {
 	padding: 50px 0;
 }
 
-.row-reg{
+.row-reg-1 {
     background-color: rgb(17, 15, 15);
     max-width: 600px;
     margin: auto;
@@ -167,7 +167,7 @@ display: inline;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
 }
 
-.row-reg .form-icon{
+.row-reg-1 .form-icon {
 	text-align: center;
     background-color: #831bd8;
     border-radius: 50%;
@@ -180,13 +180,13 @@ display: inline;
     line-height: 100px;
 }
 
-.row-reg .item{
+.row-reg-1 .item {
 	border-radius: 20px;
     margin-bottom: 25px;
     padding: 10px 20px;
 }
 
-.row-reg .create-account{
+.row-reg-1 .create-account {
     border-radius: 30px;
     padding: 10px 20px;
     font-size: 18px;
@@ -197,7 +197,7 @@ display: inline;
     margin-top: 20px;
 }
 
-.row-reg .social-media{
+.row-reg-1 .social-media {
     max-width: 600px;
     background-color: rgb(219, 50, 50);
     margin: auto;
@@ -210,12 +210,12 @@ display: inline;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
 }
 
-.row-reg .social-icons{
+.row-reg-1 .social-icons {
     margin-top: 30px;
     margin-bottom: 16px;
 }
 
-.row-reg .social-icons a{
+.row-reg-1 .social-icons a {
     font-size: 23px;
     margin: 0 3px;
     color: #5691ff;
@@ -229,17 +229,17 @@ display: inline;
     line-height: 45px;
 }
 
-.row-reg .social-icons a:hover{
+.row-reg-1 .social-icons a:hover {
     text-decoration: none;
     opacity: 0.6;
 }
 
 @media (max-width: 576px) {
-    .row-reg form{
+    .row-reg-1 form {
         padding: 50px 20px;
     }
 
-    .row-reg .form-icon{
+    .row-reg-1 .form-icon {
         width: 70px;
         height: 70px;
         font-size: 30px;

@@ -36,10 +36,14 @@
     {% if session.user %}
         <!-- layout.html -->
         <li><a href="{{ url_for('template_test') }}">Home</a></li>
+        <!-- profile.html -->
+        <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
     {% else %}
+        <!-- layout.html -->
+        <li><a href="{{ url_for('template_test') }}">Home</a></li>      
         <!-- login.html -->
         <li><a href="{{ url_for('login') }}">Log in</a></li>
-    <!-- layout.html -->
+        <!-- register.html -->
         <li><a href="{{ url_for('register') }}">Register</a></li>
     {% endif %}
 
