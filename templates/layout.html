@@ -45,6 +45,8 @@
         <li><a href="{{ url_for('login') }}">Log in</a></li>
         <!-- register.html -->
         <li><a href="{{ url_for('register') }}">Register</a></li>
+        <!-- profile.html -->
+        <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
     {% endif %}
 
 </ul>
