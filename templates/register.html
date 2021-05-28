@@ -5,40 +5,35 @@
 
 <h3 class="center-align">Register</h3>
 
-<div class="row-reg">
-<form class="col s12 m8 offset-m2" method="POST" action="{{ url_for('register') }}">
+<div class="content-section">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Join Today</legend>
+            <dir class="form-group">
+                {{ form.username.label(class="form-control-label") }}
+                {{ form.username.(class="form-control form-control-lg") }}
+            </dir>
+            <dir class="form-group">
+                {{ form.email.label(class="form-control-label") }}
+                {{ form.email(class="form-control form-control-lg") }}
+            </dir>
+            <dir class="form-group">
+                {{ form.password.label(class="form-control-label") }}
+                {{ form.password(class="form-control form-control-lg") }}
+            </dir>
+            <dir class="form-group">
+                {{ form.confirm_password.label(class="form-control-label") }}
+                {{ form.confirm_password(class="form-control form-control-lg") }}
+            </dir>
+        </fieldset>
+    </form>
+</div>
+
     <div class="form-icon">
         <span><i class="icon icon-user"></i></span>
     </div>
-    <div class="form-group">
-        <input type="text" class="form-control item" id="username" placeholder="Username">
-    </div>
-    <div class="form-group">
-        <input type="password" class="form-control item" id="password" placeholder="Password">
-    </div>
-    <div class="form-group">
-        <input type="text" class="form-control item" id="email" placeholder="Email">
-    </div>
-    <div class="form-group">
-        <button type="button" class="btn btn-block create-account">Create Account</button>
-    </div>
-</form>
-<div class="social-media">
-    <h5>Sign up with social media</h5>
-    <div class="social-icons">
-        <a href="#"><i class="icon-social-facebook" title="Facebook"></i></a>
-        <a href="#"><i class="icon-social-google" title="Google"></i></a>
-        <a href="#"><i class="icon-social-twitter" title="Twitter"></i></a>
-    </div>
-</div>
-</div>
 
-<div class="row">
-    <div class="col s12">
-        <p class="center-align"><a href="" class="class"><a href="{{ url_for('login') }}" class="href">Already have an account? Log in here</a>    
-        </a></p>
-            
-    </div>
    <!-- register -->
 
 {% endblock %}

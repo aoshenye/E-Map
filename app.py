@@ -1,10 +1,8 @@
-from flask import Flask, render_template, redirect, request, session, url_for
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length
-
+from flask import Flask, render_template, url_for
+from forms import RegistrationForm, LoginForm
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'thismaybeasecret!'
+
+app.config['SECRET_KEY'] = '643e449d5787be04d70700f8e3625070'
 
 
 @app.route("/")
@@ -14,12 +12,14 @@ def template_test():
 
 @app.route("/login")
 def login():
-    return render_template('login.html', title='Login')
+    form = LoginForm()
+    return render_template('login.html', title='Login', form=form)
 
 
 @app.route("/register")
 def register():
-    return render_template("register.html", title='Register')
+    form = RegistrationForm()
+    return render_template("register.html", title='Register', form=form)
 
 
 @app.route("/profile")
@@ -34,3 +34,5 @@ def about():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
