@@ -24,17 +24,7 @@
       <div class="bg-dark p-4">
         <h5 class="text-white h4">
         </h5>
-        <span class="text-muted">Toggleable via the navbar brand.</span>
-      </div>
-    </div>
-    <nav class="navbar navbar-dark bg-dark">
-      <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      </div>
-    </nav>
-<section>
+        <span class="text-muted" style="text-align: center;">Toggleable via the navbar brand.
   <ul>
     {% if session.user %}
         <!-- layout.html -->
@@ -50,9 +40,24 @@
         <li><a href="{{ url_for('register') }}">Register</a></li>
         <!-- profile.html -->
         <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
+        <!-- about.html -->
+        <li><a href="{{ url_for('about') }}">About us</a></li>
     {% endif %}
 
 </ul>
+
+        </span>
+      </div>
+    </div>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </nav>
+<section>
+
 </section>
 {% block content %}
 {% endblock %}

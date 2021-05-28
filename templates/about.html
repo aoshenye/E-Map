@@ -1,5 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+
+{% block content %}
+
+
 <head>
     {% if title %}
         <title>EVM - {{ title }}</title>
@@ -8,6 +11,9 @@
     {% endif %}
 </head>
 <body>
-    
-</body>
-</html>
+    <div class="about-section" style="text-align: center;">
+        <h1>About Us Page</h1>
+        <p>Some text about who we are and what we do.</p>
+        <p>Resize the browser window to see that this page is responsive by the way.</p>
+      </div>
+{% endblock %}
