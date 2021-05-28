@@ -12,8 +12,11 @@
 
     {% endblock %}
 
-    <title>Flask Template Example</title>
-
+    {% if title %}
+        <title>EVM - {{ title }}</title>
+    {% else %}
+        <title>EVM</title>
+    {% endif %}
   </head>
   <body>
   
