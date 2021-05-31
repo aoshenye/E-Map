@@ -19,7 +19,7 @@
     {% endif %}
   </head>
   <body>
-  
+  <header>
     <div class="collapse" id="navbarToggleExternalContent">
       <div class="bg-dark p-4">
         <h5 class="text-white h4">
@@ -31,6 +31,8 @@
         <li><a href="{{ url_for('template_test') }}">Home</a></li>
         <!-- profile.html -->
         <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
+        <!-- about.html -->
+        <li><a href="{{ url_for('about') }}">About us</a></li>
     {% else %}
         <!-- layout.html -->
         <li><a href="{{ url_for('template_test') }}">Home</a></li>      
@@ -38,14 +40,11 @@
         <li><a href="{{ url_for('login') }}">Log in</a></li>
         <!-- register.html -->
         <li><a href="{{ url_for('register') }}">Register</a></li>
-        <!-- profile.html -->
-        <li><a href="{{ url_for('profile', username=session['user']) }}">Profile</a></li>
         <!-- about.html -->
         <li><a href="{{ url_for('about') }}">About us</a></li>
     {% endif %}
 
 </ul>
-
         </span>
       </div>
     </div>
@@ -56,18 +55,35 @@
         </button>
       </div>
     </nav>
-<section>
-
-</section>
-{% block content %}
-{% endblock %}
-
-    <div class="footer">
-      {% block footer %}
-        Watch! This will be added to my base and child templates using the super powerful super block!
-        <br>
-        <br>
-      {% endblock %}
+<div>
+</header>
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-md-8">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
     </div>
-  </body>
+    <div class="col-md-4">
+      <div class="content-section">
+        <h3>Our Sidebar</h3>
+        <p class='text-muted'>You can put any information here you'd like.
+          <ul class="list-group">
+            <li class="list-group-item list-group-item-light">Latest Posts</li>
+            <li class="list-group-item list-group-item-light">Announcements</li>
+            <li class="list-group-item list-group-item-light">Calendars</li>
+            <li class="list-group-item list-group-item-light">etc</li>
+          </ul>
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
 </html>
