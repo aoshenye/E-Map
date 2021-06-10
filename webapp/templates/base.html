@@ -23,9 +23,11 @@
                         <div class="navbar-nav">
                             {% if user.is_authenticated %}
                             <span class="text-muted" style="text-align: center;">
-                                <a class="nav-item nav-link" id="home" href="/">Home</a>
+                                <a class="nav-item nav-link" id="home" href="/">Profile</a>
                                 <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                                <a class="nav-item nav-link" id="aboutus" href="/aboutus">About us</a>
                                 {% else %}
+                                <a class="nav-item nav-link" id="aboutus" href="/aboutus">About us</a>
                                 <a class="nav-item nav-link" id="login" href="/login">Login</a>
                                 <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
                                 {% endif %}
