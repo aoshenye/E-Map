@@ -1,64 +1,51 @@
-// Stockholm 
-const initialLocation = {
-    lat: 59.334591,
-    lng: 18.063240
-};
-var map;
-var autocomplete;
-var infowindow;
-var infowindowContent;
-var mapPlaceMarker;
-var service;
-
-let map;
+let map, infoWindow;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 2,
-        center: new google.maps.LatLng(2.8, -187.3),
-        mapTypeId: "terrain",
+        center: {
+            lat: -34.397,
+            lng: 150.644
+        },
+        zoom: 6,
     });
-    // Create a <script> tag and set the USGS URL as the source.
-    const script = document.createElement("script");
-    // This example uses a local copy of the GeoJSON stored at
-    // http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojsonp
-    script.src =
-        "https://developers.google.com/maps/documentation/javascript/examples/json/earthquake_GeoJSONP.js";
-    document.getElementsByTagName("head")[0].appendChild(script);
+    infoWindow = new google.maps.InfoWindow();
+    const locationButton = document.createElement("button");
+    locationButton.textContent = "Pan to Current Location";
+    locationButton.classList.add("custom-map-control-button");
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+    locationButton.addEventListener("click", () => {
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude,
+                    };
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent("Location found.");
+                    infoWindow.open(map);
+                    map.setCenter(pos);
+                },
+                () => {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                }
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindow, map.getCenter());
+        }
+    });
 }
 
-// Loop through the results array and place a marker for each
-// set of coordinates.
-const eqfeed_callback = function(results) {
-    for (let i = 0; i < results.features.length; i++) {
-        const coords = results.features[i].geometry.coordinates;
-        const latLng = new google.maps.LatLng(coords[1], coords[0]);
-        new google.maps.Marker({
-            position: latLng,
-            map: map,
-        });
-    }
-};
-
-// Specify just the place data fields that you need.
-autocomplete.setFields(["place_id", "geometry", "name", "formatted_address"]);
-
-map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-infowindow = new google.maps.InfoWindow();
-infowindowContent = document.getElementById("infowindow-content");
-infowindow.setContent(infowindowContent);
-
-mapPlaceMarker = new google.maps.Marker({
-    map: map
-});
-mapPlaceMarker.addListener("click", () => {
-    infowindow.open(map, marker);
-});
-
-// Places API service
-service = new google.maps.places.PlacesService(map);
-
-autocomplete.addListener("place_changed", autocompleteCallback);
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(
+        browserHasGeolocation ?
+        "Error: The Geolocation service failed." :
+        "Error: Your browser doesn't support geolocation."
+    );
+    infoWindow.open(map);
 }
 
 /* 
@@ -224,71 +211,3 @@ function createPhotoMarker(place) {
         })
     });
 }
-
-var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-        /* Adding and removing "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active");
-
-        /* Hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-            panel.style.display = "none";
-        } else {
-            panel.style.display = "block";
-        }
-    });
-}
-
-/* Initializing promise of response */
-$(document).ready(function() {
-    $("button").click(function() {
-        $("#Hilma").html("<h1>Salsa for Beginners 1800 - 1930</h1>");
-    });
-});
-
-$(document).ready(function() {
-    $("button").click(function() {
-        $("#SpyBar").html("<h1>Dj Ivan classics 21-3</h1>");
-    });
-});
-
-$(document).ready(function() {
-    $("button").click(function() {
-        $("#Sodra").html("<h1>Hip Hop & R&B with dj Messi from 2200 - 500</h1>");
-    });
-});
-
-$(document).ready(function() {
-    $("button").click(function() {
-        $("#Slak").html("<h1>Jazz night with special guest perfomances 1900 - 2300</h1>");
-    });
-});
-
-$(document).ready(function() {
-    $("button").click(function() {
-        $("#Fash").html("<h1>Flash mob part with Kaz & Jeff 2100 - 0000</h1>");
-    });
-});
-
-$(document).ready(function() {
-    $("button").click(function() {
-        $("#Trad").html("<h1>Field Play events 1700 - 2100</h1>");
-    });
-});
-
-$(document).ready(function() {
-    $("button").click(function() {
-        $("#Hobo").html("<h1> Hotel Selections presents... 2100 - 300</h1>");
-    });
-});
-
-$(document).ready(function() {
-    $("button").click(function() {
-        $("#Himlen").html("<h1>After Work 1800 - 0000</h1>");
-    });
-});
