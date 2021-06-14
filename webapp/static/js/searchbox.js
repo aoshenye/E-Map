@@ -1,51 +1,43 @@
-let map, infoWindow;
+const initialLocation = {
+    lat: 59.334591,
+    lng: 18.063240
+};
+var map;
+var autocomplete;
+var infowindow;
+var infowindowContent;
+var mapPlaceMarker;
+var service;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
-        center: {
-            lat: -34.397,
-            lng: 150.644
-        },
-        zoom: 6,
+        center: initialLocation,
+        zoom: 13,
     });
-    infoWindow = new google.maps.InfoWindow();
-    const locationButton = document.createElement("button");
-    locationButton.textContent = "Pan to Current Location";
-    locationButton.classList.add("custom-map-control-button");
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
-    locationButton.addEventListener("click", () => {
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    };
-                    infoWindow.setPosition(pos);
-                    infoWindow.setContent("Location found.");
-                    infoWindow.open(map);
-                    map.setCenter(pos);
-                },
-                () => {
-                    handleLocationError(true, infoWindow, map.getCenter());
-                }
-            );
-        } else {
-            // Browser doesn't support Geolocation
-            handleLocationError(false, infoWindow, map.getCenter());
-        }
-    });
-}
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(
-        browserHasGeolocation ?
-        "Error: The Geolocation service failed." :
-        "Error: Your browser doesn't support geolocation."
-    );
-    infoWindow.open(map);
+    const input = document.getElementById("pac-input");
+    autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.bindTo("bounds", map);
+
+    // Specify just the place data fields that you need.
+    autocomplete.setFields(["place_id", "geometry", "name", "formatted_address"]);
+
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    infowindow = new google.maps.InfoWindow();
+    infowindowContent = document.getElementById("infowindow-content");
+    infowindow.setContent(infowindowContent);
+
+    mapPlaceMarker = new google.maps.Marker({
+        map: map
+    });
+    mapPlaceMarker.addListener("click", () => {
+        infowindow.open(map, marker);
+    });
+
+    // Places API service
+    service = new google.maps.places.PlacesService(map);
+
+    autocomplete.addListener("place_changed", autocompleteCallback);
 }
 
 /* 

@@ -9,8 +9,9 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="static/css/style.css" />
-    <script src="static/js/searchbox.js"></script>
+
 
     <title>{% block title %}Home{% endblock %}</title>
 </head>
@@ -47,7 +48,6 @@
                 </button>
             </div>
         </nav>
-        <div>
     </header>
 
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
