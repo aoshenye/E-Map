@@ -1,5 +1,8 @@
 let markers = []
 
+// -1 means all connectors allowed
+let selectedConnectorType = "-1"
+
 /**
  * Creates the HTML content for the infoWindow.
  * See example implementation.
@@ -65,9 +68,11 @@ function addMarker(map, device) {
 
 /**
  * Adds all google maps markers for all charger positions retrieved from
- * API http://chargepoints.dft.gov.uk/api/ .
+ * API https://chargepoints.dft.gov.uk/api/ .
  *
  * All chargers in a specified amount of distance around a postion will be added.
+ *
+ * All chargers that match the ConnectorTypeID in the global variable selectedConnectorType.
  *
  * @param {*} map The map object where the markers should be added
  * @param {*} location Location from which chargers around will be added {lat: number, lng: number}
@@ -82,15 +87,14 @@ async function addCharger(map, location, dist) {
     let lng = location.lng.toString()
     lng = lng.substring(0, Math.min(lat.length, 9))
 
-    // const url = `https://chargepoints.dft.gov.uk/api/retrieve/registry/dist/${dist}/lat/${lat}/long/${lng}/?format=json`
-    const url = `https://chargepoints.dft.gov.uk/api/retrieve/registry/?format=json&dist=${dist}&long=${lng}&lat=${lat}`
+    const connectorFilter =
+        selectedConnectorType === "-1" ? "" : "&connector-type-id=" + selectedConnectorType
 
-    const http = new XMLHttpRequest()
-    http.open("GET", url)
-    http.responseType = "json"
+    const url =
+        `https://chargepoints.dft.gov.uk/api/retrieve/registry/?format=json&dist=${dist}&long=${lng}&lat=${lat}` +
+        connectorFilter
 
-    http.onerror = handleUnexpectedError
-    http.onload = (e) => {
+    onload = (http, e) => {
         try {
             if (handleHttpError(http)) return
 
@@ -100,6 +104,7 @@ async function addCharger(map, location, dist) {
 
             for (let i = 0; i < devices.length; i++) {
                 const device = devices[i]
+
                 addMarker(map, device)
             }
         } catch (err) {
@@ -112,18 +117,65 @@ async function addCharger(map, location, dist) {
             }
         }
     }
-    http.send()
+    apicall_get(url, onload, handleUnexpectedError)
 }
 
 /**
- * This method handles errors occured on the network level.
- * Meaning, there was no response from the called server.
- *
- * @param {*} error error object raised from XmlHttpRequest
+ * Delets all markers from the map
  */
-function handleUnexpectedError(error) {
-    console.log("Unexpected error occured while calling the API")
-    // @arnold you should log this error somewhere safe (not visible for the client)
+function deleteMarkers() {
+    for (let i = 0; i < markers.length; i++) {
+        markers[i].setMap(null)
+    }
+    markers = []
+}
+
+/**
+ * Adds all Connector Types to the html-select-element.
+ */
+function addConnectorTypes() {
+    let typeSelect = $("#chargertype_select")
+
+    const url = "https://chargepoints.dft.gov.uk/api/retrieve/type?format=json"
+    let cb_types = (http, e) => {
+        try {
+            if (handleHttpError(http)) return
+
+            let response = http.response
+            let types = response.ConnectorType
+
+            Object.keys(types).forEach((i) => {
+                let type = types[i]
+                let displayName = type.ConnectorType.split("(")[0]
+                typeSelect.append(
+                    "<option value='" + type.ConnectorTypeID + "'>" + displayName + "</option>"
+                )
+            })
+        } catch (err) {
+            if (err instanceof SyntaxError) {
+                console.log("API response object, is no valid JSON object")
+            } else {
+                console.log(err)
+            }
+        }
+    }
+    apicall_get(url, cb_types, handleUnexpectedError)
+}
+
+/**
+ *  On selecting another Connector type, the selcted connector will
+ * be stored in selectedConnectorType and refreshes the map with the new markers
+ *
+ * @param {*} elem HTML-Element select for selectin connector types
+ */
+function typeSelected(elem) {
+    selectedConnectorType = elem.value
+
+    let lat = map.getCenter().lat()
+    let lng = map.getCenter().lng()
+
+    deleteMarkers()
+    addCharger(map, { lat: lat, lng: lng }, dist)
 }
 
 /**
@@ -150,10 +202,13 @@ function handleHttpError(req) {
     }
 }
 
-// Deletes all markers in the array by removing references to them.
-function deleteMarkers() {
-    for (let i = 0; i < markers.length; i++) {
-        markers[i].setMap(null)
-    }
-    markers = []
+/**
+ * This method handles errors occured on the network level.
+ * Meaning, there was no response from the called server.
+ *
+ * @param {*} error error object raised from XmlHttpRequest
+ */
+function handleUnexpectedError(error) {
+    console.log("Unexpected error occured while calling the API")
+    // @arnold you should log this error somewhere safe (not visible for the client)
 }
