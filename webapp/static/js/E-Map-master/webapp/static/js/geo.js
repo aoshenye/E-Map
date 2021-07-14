@@ -1,5 +1,6 @@
 var map
 var autocomplete
+var infowindow
 var infowindowContent
 var mapPlaceMarker
 var service
@@ -36,8 +37,9 @@ function initMap() {
   })
 
 // Call function and Pass In Locations. Pass In  A Function For the last Argument As It Will Return Organized Data (Directions, Duration And Other Data)
-//   getDirections("California", "Maine", directionsService, { directionsDisplayPrimary, directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls }, (cb) => console.log('here =>', cb))
+  getDirections("California", "Maine", directionsService, { directionsDisplayPrimary, directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls }, (cb) => console.log('here =>', cb))
 
+  ["avoidFerries", "avoidHighways", "avoidTolls"]
 
 
   directionsDisplayPrimary.setMap(map);
@@ -45,6 +47,7 @@ function initMap() {
   directionDisplaysAvoidHighways.setMap(map)
   directionDisplaysAvoidFerries.setMap(map)
 
+  infoWindow = new google.maps.InfoWindow()
   const locationButton = document.createElement("button")
   locationButton.textContent = "Pan to Current Location"
   locationButton.classList.add("custom-map-control-button")
@@ -58,7 +61,10 @@ function initMap() {
                       lat: position.coords.latitude,
                       lng: position.coords.longitude,
                   }
-    
+                  infoWindow.setPosition(pos)
+                  infoWindow.setContent("Location found.")
+                  infoWindow.open(map)
+                  map.setCenter(pos)
 
                   // adds async marker
                   // addCharger(map, pos, dist)
@@ -72,83 +78,6 @@ function initMap() {
           handleLocationError(false, infoWindow, map.getCenter())
       }
   })
-
-  const destination_input = document.getElementById('menu-destination')
-  const curr_location = document.getElementById('menu-myLocation')
-  const options = {
-    componentRestrictions: { country: "uk" },
-    fields: ["formatted_address", "geometry", "name"],
-    strictBounds: false,
-    types: ["establishment"],
-  };
-
-  const destination_autocomplete = new google.maps.places.Autocomplete(destination_input, options);
-  const currLocation_autocomplete = new google.maps.places.Autocomplete(curr_location, options);
-  destination_autocomplete.bindTo("bounds", map);
-  currLocation_autocomplete.bindTo("bounds", map);
-  
-
-
-  destination_autocomplete.addListener("place_changed", () => {
-    infowindow.close();
-    marker.setVisible(false);
-    const place = autocomplete.getPlace();
-
-    if (!place.geometry || !place.geometry.location) {
-      // User entered the name of a Place that was not suggested and
-      // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for input: '" + place.name + "'");
-      return;
-    }
-
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
-    }
-    marker.setPosition(place.geometry.location);
-    marker.setVisible(true);
-    infowindowContent.children["place-name"].textContent = place.name;
-    infowindowContent.children["place-address"].textContent =
-      place.formatted_address;
-    infowindow.open(map, marker);
-  });
-
-  currLocation_autocomplete.addListener("place_changed", () => {
-    infowindow.close();
-    marker.setVisible(false);
-    const place = autocomplete.getPlace();
-
-    if (!place.geometry || !place.geometry.location) {
-      // User entered the name of a Place that was not suggested and
-      // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for input: '" + place.name + "'");
-      return;
-    }
-
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
-    }
-    marker.setPosition(place.geometry.location);
-    marker.setVisible(true);
-    infowindowContent.children["place-name"].textContent = place.name;
-    infowindowContent.children["place-address"].textContent =
-      place.formatted_address;
-    infowindow.open(map, marker);
-  });
-
-
-
-
-
-
-
 
   const newLocationButton = document.createElement("button")
   newLocationButton.textContent = "Use this as new location"
@@ -192,39 +121,26 @@ function autocompleteCallback() {
     infowindowContent.children.namedItem("place-address").textContent = place.formatted_address
     infowindow.open(map, mapPlaceMarker)
 }
-/**
- * 
- * @param {*} origin 
- * @param {*} destination 
- * @param {*} directionsService 
- * @param {*} param3 
- * @param {*} callback 
- * @param {*} avoidables 
- */
-const getDirections = async (origin, destination, directionsService, { directionsDisplayPrimary, directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls }, callback, avoidables) => {
- 
+
+const getDirections = async (origin, destination, directionsService, { directionsDisplayPrimary, directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls }, callback) => {
+
   const callBackData = {
     primary: null,
     ferries: null,
     highway: null,
     tolls: null
   }
+  const avoidables = ["avoidFerries", "avoidHighways", "avoidTolls"]
   for (let i = 0; i < avoidables.length; i++) {
-
-    const config = () => avoidables[i] === "primary"? ({
-      origin: origin,
-      destination: destination,
-      travelMode: 'DRIVING',
-    }) : ({
+    directionsService.route({
       origin: origin,
       destination: destination,
       travelMode: 'DRIVING',
       [avoidables[i]]: true
-    })
-  
-    directionsService.route(config(), function (response, status) {
+    }, function (response, status) {
       if (status === 'OK') {
-   
+
+        console.log(avoidables[i])
         if (avoidables[i] === "avoidFerries") {
           callBackData.ferries = response
           directionDisplaysAvoidFerries.setDirections(response)
@@ -234,14 +150,13 @@ const getDirections = async (origin, destination, directionsService, { direction
         } else if (avoidables[i] === "avoidTolls") {
           callBackData.tolls = response
           directionDisplaysAvoidTolls.setDirections(response)
-        } else if (avoidables[i] === "primary") {
-            directionsDisplayPrimary.setDirections(response)
         }
-
-        
         callBackData.primary = response
         directionsDisplayPrimary.setDirections(response);
-        
+
+
+
+        console.log(response.routes[0].legs[0])
 
       } else {
 
@@ -251,8 +166,7 @@ const getDirections = async (origin, destination, directionsService, { direction
 
       callback(callBackData)
     });
-
-} 
+  }
 
 }
 
