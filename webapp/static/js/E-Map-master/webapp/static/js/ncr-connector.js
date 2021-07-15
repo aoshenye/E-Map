@@ -43,7 +43,7 @@ function addMarker(map, device) {
                 lng: Number.parseFloat(loc.Longitude),
             },
             map: map,
-            icon: "/static/img/mapicon.JPG",
+            icon: "/static/img/mapic.JPG",
             optimized: false,
         })
 
@@ -175,7 +175,10 @@ function typeSelected(elem) {
     let lng = map.getCenter().lng()
 
     deleteMarkers()
-    addCharger(map, { lat: lat, lng: lng }, dist)
+    addCharger(map, {
+        lat: lat,
+        lng: lng
+    }, dist)
 }
 
 /**

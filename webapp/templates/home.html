@@ -17,11 +17,9 @@
 <script type="text/javascript" src="static/js/ncr-connector.js"></script>
 <script type="text/javascript" src="static/js/geo.js"></script>
 <script type="text/javascript" src="static/js/menu.js"></script>
-<script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRXv-4nyUEs7sEVj1JohJERH0sZ_31PjM&callback=initMap&libraries=places"
-    defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRXv-4nyUEs7sEVj1JohJERH0sZ_31PjM&callback=initMap&libraries=places" defer></script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         addConnectorTypes()
     });
 </script>
@@ -31,8 +29,7 @@
     <h3>FIND YOUR CHARGE POINT</h3>
 
 
-    <select class="form-select mt-3 mb-3" aria-label="Charger Type Selection" id="chargertype_select"
-        onchange="typeSelected(this)">
+    <select class="form-select mt-3 mb-3" aria-label="Charger Type Selection" id="chargertype_select" onchange="typeSelected(this)">
         <option value="-1" selected>All Connector Types</option>
     </select>
 
@@ -44,7 +41,7 @@
             <div style="display: block;" class="menu-content">
                 <section>
                     <label class="menu-header">Enter Route</label>
-                 
+
                 </section>
                 <section>
                     <input placeholder="Destination" id="menu-myLocation" class="underlinedInput" />
@@ -55,15 +52,10 @@
                 <section>
                     <!-- <button onclick="findRoute()">Go!</button> -->
                 </section>
-                <div style="display: flex; margin-top: 20px;">
-                    <button style="margin-right: 7px;" class="menuButton">Add Stop</button>
-                    <button class="menuButton">Reverse</button>
-                </div>
                 <div style="color: #0059E8; margin-top: 20px;">
                     <label style="margin-top: 20;" class="menu-header">Route Options</label>
                     <section>
-                        <input type="checkbox" style="color: white;" class="checkBox" id="cb-highway" name="vehicle1"
-                            value="Bike">
+                        <input type="checkbox" style="color: white;" class="checkBox" id="cb-highway" name="vehicle1" value="Bike">
                         <label for="highway"> No Highway</label><br>
                         <input type="checkbox" id="cb-toll" name="vehicle2" value="Car">
                         <label for="tolls">No Tolls</label><br>
@@ -75,9 +67,9 @@
                     <label class="menu-header">Route Options</label>
                     <section style="color: #0059E8; display: flex;">
                         <section>
-                        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-                        <label for="tolls">Only</label><br>
-                    </section>
+                            <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+                            <label for="tolls">Only</label><br>
+                        </section>
                         <section style="margin-left: 25px;">
                             <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
                             <label for="tolls">Suggest Charges</label><br>
@@ -96,6 +88,13 @@
             <span id="place-address"></span>
         </div>
     </div>
+
+    <footer>
+        <p>
+
+        </p>
+    </footer>
+
 </body>
 
 
