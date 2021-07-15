@@ -12,6 +12,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="static/css/style.css" />
 
+    <style>
+        .navbar-dark {
+            background: #571AB7;
+            color: #00CBAB;
+        }
+
+        .p-4 {
+            background: #571AB7;
+            color: #00CBAB;
+        }
+    </style>
 
     <title>{% block title %}Home{% endblock %}</title>
 
@@ -20,29 +31,27 @@
 <body>
     <header>
         <div class="collapse" id="navbarToggleExternalContent">
-            <div class="bg-dark p-4">
-                <h5 class="text-white h4">
-                </h5>
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <div class="collapse navbar-collapse" id="navbar">
-                        <div class="navbar-nav">
-                            {% if user.is_authenticated %}
-                            <span class="text-muted" style="text-align: center;">
-                                <a class="nav-item nav-link" id="home" href="/">Profile</a>
-                                <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-                                <a class="nav-item nav-link" id="aboutus" href="/aboutus">About us</a>
-                                {% else %}
-                                <a class="nav-item nav-link" id="login" href="/login">Login</a>
-                                <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
-                                <a class="nav-item nav-link" id="aboutus" href="/aboutus">About us</a>
-                                {% endif %}
-                            </span>
-                        </div>
+            <div class="p-4">
+
+                <nav class="navbar navbar-expand-lg navbar-dark">
+
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                        <span class="text-muted" style="text-align: center;">
+                            <a class="nav-item nav-link" id="home" href="/">Profile</a>
+                            <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+                            <a class="nav-item nav-link" id="aboutus" href="/aboutus">About us</a>
+                            {% else %}
+                            <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                            <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+                            <a class="nav-item nav-link" id="aboutus" href="/aboutus">About us</a>
+                            {% endif %}
+                        </span>
                     </div>
-                </nav>
             </div>
+            </nav>
         </div>
-        <nav class="navbar navbar-dark bg-dark">
+        <nav class="navbar navbar-dark">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
