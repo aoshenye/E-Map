@@ -14,13 +14,14 @@
 
     <style>
         .navbar-dark {
-            background: #571AB7;
-            color: #00CBAB;
+            background: black;
+
         }
 
         .p-4 {
-            background: #571AB7;
-            color: #00CBAB;
+            background: black;
+
+
         }
     </style>
 
@@ -37,7 +38,7 @@
 
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
-                        <span class="text-muted" style="text-align: center;">
+                        <span class="text" style="text-align: center;">
                             <a class="nav-item nav-link" id="home" href="/">Profile</a>
                             <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
                             <a class="nav-item nav-link" id="aboutus" href="/aboutus">About us</a>
