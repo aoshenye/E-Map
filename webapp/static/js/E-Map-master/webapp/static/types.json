@@ -1,0 +1,40 @@
+{
+    "ConnectorType": {
+        "3": {
+            "ConnectorTypeID": 3,
+            "ConnectorType": "3-pin Type G (BS1363)"
+        },
+        "4": {
+            "ConnectorTypeID": 4,
+            "ConnectorType": "JEVS G105 (CHAdeMO) DC"
+        },
+        "5": {
+            "ConnectorTypeID": 5,
+            "ConnectorType": "Type 1 SAEJ1772 (IEC 62196)"
+        },
+        "6": {
+            "ConnectorTypeID": 6,
+            "ConnectorType": "Type 2 Mennekes (IEC62196)"
+        },
+        "7": {
+            "ConnectorTypeID": 7,
+            "ConnectorType": "Type 3 Scame (IEC62196)"
+        },
+        "15": {
+            "ConnectorTypeID": 15,
+            "ConnectorType": "CCS Type 2 Combo (IEC62196)"
+        },
+        "16": {
+            "ConnectorTypeID": 16,
+            "ConnectorType": "Type 2 Tesla (IEC62196) DC"
+        },
+        "17": {
+            "ConnectorTypeID": 17,
+            "ConnectorType": "Commando 2P+E (IEC60309)"
+        },
+        "18": {
+            "ConnectorTypeID": 18,
+            "ConnectorType": "Commando 3P+N+E (IEC60309)"
+        }
+    }
+}
