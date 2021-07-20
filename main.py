@@ -1,7 +1,17 @@
 from webapp import create_app
 import os, sys
+from flask import Flask, jsonify
+from flask_cors import CORS, cross_origin
+
 
 app = create_app()
+CORS(app, supports_credentials=True)
+def login():
+    return jsonify({'success': 'ok'})
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8000, debug=True)
+    
 
 
 def isUserAdmin():
