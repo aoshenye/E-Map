@@ -1,14 +1,14 @@
-# E-Map
-s
-# Dependencies
-Python
-pip3 install Flask
-pip3 install flask-sqlalchemy
-pip3 install flask-login
+# e-map-django
+App that has been build in Flask, and is now being implemented using the Django framework.
 
-Javascript
-node-package-manager:
-install npm 
+# Set Up
 
-install all dependencies:
-npm install 
+pip3 install -r requirements.txt
+
+python3 ./manage.py runserver
+
+# Accessing admin
+Whatever url is generated in gitpod just add '/admin' after and login with the following credentials:
+
+username: gitpod
+password: bread45dog@pipe
