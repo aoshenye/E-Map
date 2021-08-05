@@ -26,7 +26,7 @@ urlpatterns = [
     #emap
     path('', home, name='home'),
     path('aboutus/', aboutus, name='aboutus'),
-    path('get-chargers', get_chargers, name='get_chargers')
+    path('get-chargers', get_chargers, name='get_chargers'),
 
     #accounts
     path('login/', login_view, name='login'),
