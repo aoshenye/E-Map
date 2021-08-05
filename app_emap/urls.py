@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 
 from emap.views import home, aboutus
-from accounts.views import login_view, logout_view, sign_up
+from accounts.views import login_view, logout_view, sign_up, get_chargers
 
 
 urlpatterns = [
@@ -26,6 +26,7 @@ urlpatterns = [
     #emap
     path('', home, name='home'),
     path('aboutus/', aboutus, name='aboutus'),
+    path('get-chargers', get_chargers, name='get_chargers')
 
     #accounts
     path('login/', login_view, name='login'),

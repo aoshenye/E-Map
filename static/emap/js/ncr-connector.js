@@ -90,9 +90,11 @@ async function addCharger(map, location, dist) {
     const connectorFilter =
         selectedConnectorType === "-1" ? "" : "&connector-type-id=" + selectedConnectorType
 
-    const url =
-        `https://chargepoints.dft.gov.uk/api/retrieve/registry/?format=json&dist=${dist}&long=${lng}&lat=${lat}` +
-        connectorFilter
+    // const url =
+    //     `https://chargepoints.dft.gov.uk/api/retrieve/registry/?format=json&dist=${dist}&long=${lng}&lat=${lat}` +
+    //     connectorFilter
+
+    const url = '/get-chargers' + `&dist=${dist}&long=${lng}&lat=${lat}` + connectorFilter
 
     onload = (http, e) => {
         try {

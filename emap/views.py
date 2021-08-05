@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
@@ -11,3 +12,9 @@ def home(request, *args, **kwargs):
 
 def aboutus(request, *args, **kwargs):
     return render(request, 'emap/aboutus.html', {})
+
+
+def get_chargers(request, *args, **kwargs):
+    if request.method == 'GET':
+        r = requests.get('https://chargepoints.dft.gov.uk/api/retrieve/registry/', params=request.GET)
+        print(r.json())
