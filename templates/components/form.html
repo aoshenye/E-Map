@@ -1,0 +1,38 @@
+<form method="POST" action="">{% csrf_token %}
+    <fieldset class="form-group">
+        {% for field in form %}
+            <label class="label-group-addon" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <div class="input-group">     
+                <span class="input-group-addon" style="background-color:#b77b48; color:white"><span class="glyphicon glyphicon-user"></span></span>
+                {% if "password" in field.name %}
+                    <input 
+                        class="form-control" 
+                        id="{{ field.id_for_label }}" 
+                        maxlength="30" 
+                        name="{{ field.html_name }}" 
+                        placeholder="Enter {{ field.label }}"
+                        type="password" /> 
+                {% else %}
+                    <input 
+                        class="form-control" 
+                        id="{{ field.id_for_label }}" 
+                        maxlength="30" 
+                        name="{{ field.html_name }}" 
+                        placeholder="Enter {{ field.label }}"
+                        type="text" /> 
+                {% endif %}
+            </div>
+            <br>
+        {% endfor %}
+        <br />
+        <button type="submit" class="btn btn-primary">
+            {% if btn_label %}
+                {{btn_label}}
+            {% else %}
+                Submit 
+            {% endif %}
+        </button>
+    </fieldset>
+</form>
+
+

@@ -1,0 +1,17 @@
+{% extends "emap/base.html" %} {% block title %}Sign up{% endblock %}
+{%block content%}
+
+<div class="content-section">
+    <h3 align="center">{{title}}</h3>
+    <legend class="border-bottom mb-4">Join Today</legend>
+    {% include "components/form.html" with form=form btn_label=btn_label title=title %}
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Already Have An Account? <a class="ml-2" href="/login">Log In</a>
+        </small>
+    </div>
+</div>
+<h2 style="text-align:center">
+    <img class=" card-img-top" src="/static/img/TDM.JPG" alt="" style="width:100%">
+</h2>
+{%  endblock %}

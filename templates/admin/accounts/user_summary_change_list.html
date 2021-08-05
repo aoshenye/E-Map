@@ -1,0 +1,149 @@
+{% extends "admin/change_list.html" %}
+
+{% block content_title %}
+    <h1> User Summary </h1>
+{% endblock %}
+
+{% load humanize%}
+<!-- ... -->
+
+{% block result_list %}
+
+<div class="results">
+    <table>
+    <thead>
+      <tr>
+        <th>
+          <div class="text">
+            <a href="#">ID</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">First Name</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">Last Name</a>
+          </div>
+        </th>
+        <th>
+          <div class="text">
+            <a href="#">
+              <strong>Email</strong>
+            </a>
+          </div>
+        </th>
+        <th>
+            <div class="text">
+              <a href="#">
+                <strong>Username</strong>
+              </a>
+            </div>
+          </th>
+          <th>
+            <div class="text">
+              <a href="#">
+                <strong>Last Login</strong>
+              </a>
+            </div>
+          </th>
+          <th>
+            <div class="text">
+              <a href="#">
+                <strong>Date Joined</strong>
+              </a>
+            </div>
+          </th>
+          <th>
+            <div class="text">
+              <a href="#">
+                <strong>User Type</strong>
+              </a>
+            </div>
+          </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for row in summary %}
+      <tr class="{% cycle 'row1' 'row2' %}">
+        <td> {{ row.id }} </td>
+        <td> {{ row.first_name }} </td>
+        <td> {{ row.last_name }} </td>
+        <td> {{ row.email }} </td>
+        <td> {{ row.username }} </td>
+        <td> {{ row.last_login }} </td>
+        <td> {{ row.date_joined }} </td>
+        {% if row.is_super %}
+            <td> super </td>
+        {% else %}
+            <td> regular </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+  <div></div>
+
+  <style>
+    .bar-chart {
+      display: flex;
+      justify-content: space-around;
+      height: 160px;
+      padding-top: 60px;
+      overflow: hidden;
+    }
+    .bar-chart .bar {
+        flex: 100%;
+        align-self: flex-end;
+        margin-right: 2px;
+        position: relative;
+        background-color: #79aec8;
+    }
+    .bar-chart .bar:last-child {
+        margin: 0;
+    }
+    .bar-chart .bar:hover {
+        background-color: #417690;
+    }
+
+    .bar-chart .bar .bar-tooltip {
+        position: relative;
+        z-index: 999;
+    }
+    .bar-chart .bar .bar-tooltip {
+        position: absolute;
+        top: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-weight: bold;
+        opacity: 0;
+    }
+    .bar-chart .bar:hover .bar-tooltip {
+        opacity: 1;
+    }
+    </style>
+
+    <div class="results">
+        <div class="bar-chart">
+        {% for x in summary_over_time %}
+            <div class="bar" style="height:{{x.pct}}%">
+                <div class="bar-tooltip">
+                    {{x.total | default:0 | intcomma }}<br>
+                    {{x.period | date:"d/m/Y"}}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- ... -->
+{% endblock %}
+
+{% block pagination %}{% endblock %}
