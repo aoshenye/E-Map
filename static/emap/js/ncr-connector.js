@@ -43,7 +43,7 @@ function addMarker(map, device) {
                 lng: Number.parseFloat(loc.Longitude),
             },
             map: map,
-            icon: "/static/img/smallicon.JPG",
+            icon: "static/emap/img/smallicon.JPG",
             optimized: false,
         })
 
@@ -94,7 +94,7 @@ async function addCharger(map, location, dist) {
     //     `https://chargepoints.dft.gov.uk/api/retrieve/registry/?format=json&dist=${dist}&long=${lng}&lat=${lat}` +
     //     connectorFilter
 
-    const url = '/get-chargers' + `&dist=${dist}&long=${lng}&lat=${lat}` + connectorFilter
+    const url = '/get-chargers?' + `&dist=${dist}&long=${lng}&lat=${lat}` + connectorFilter
 
     onload = (http, e) => {
         try {

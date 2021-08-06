@@ -13,6 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
 
+
     <style>
         .navbar-dark {
             background: black;
@@ -31,6 +32,9 @@
 </head>
 
 <body>
+    <script type="text/javascript">
+        DJANGO_STATIC_URL = '{{ STATIC_URL }}';
+    </script>
     <header>
         <div class="collapse" id="navbarToggleExternalContent">
             <div class="p-4">
@@ -87,5 +91,5 @@
         {%  endblock %}
 
     </div>
-
+</body>
 </html>

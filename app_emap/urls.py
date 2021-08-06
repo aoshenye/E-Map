@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from emap.views import home, aboutus
-from accounts.views import login_view, logout_view, sign_up, get_chargers
+from emap.views import home, aboutus, get_chargers
+from accounts.views import login_view, logout_view, sign_up
 
 
 urlpatterns = [
