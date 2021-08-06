@@ -43,7 +43,7 @@ function addMarker(map, device) {
                 lng: Number.parseFloat(loc.Longitude),
             },
             map: map,
-            icon: "static/emap/img/smallicon.JPG",
+            icon: "static/smallicon.JPG",
             optimized: false,
         })
 
