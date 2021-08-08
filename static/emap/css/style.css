@@ -130,10 +130,10 @@ body {
     border-radius: 10px;
 }
 
-select {
+.select {
     -webkit-appearance: listbox;
 }
-select, input {
+.select, input {
     width: 100%;
     height: 40px;
     line-height:40px;
