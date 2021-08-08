@@ -130,6 +130,11 @@ body {
     border-radius: 10px;
 }
 
+.select {
+    -webkit-appearance: none;
+    appearance: none;       /* Remove default arrow */
+ }
+
 .checkBox {
     color: white
 }
