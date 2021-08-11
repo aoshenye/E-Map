@@ -138,7 +138,8 @@ function deleteMarkers() {
 function addConnectorTypes() {
     let typeSelect = $("#chargertype_select")
 
-    const url = "https://chargepoints.dft.gov.uk/api/retrieve/type?format=json"
+    //const url = "https://chargepoints.dft.gov.uk/api/retrieve/type?format=json"
+    const url = "/get-connector-types?"
     let cb_types = (http, e) => {
         try {
             if (handleHttpError(http)) return

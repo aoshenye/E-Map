@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from emap.views import home, aboutus, get_chargers
+from emap.views import home, aboutus, get_chargers, get_connector_types
 from accounts.views import login_view, logout_view, sign_up
 
 
@@ -26,7 +26,8 @@ urlpatterns = [
     #emap
     path('', home, name='home'),
     path('aboutus/', aboutus, name='aboutus'),
-    path('get-chargers', get_chargers, name='get_chargers'),
+    path('get-chargers/', get_chargers, name='get_chargers'),
+    path('get-connector-types/', get_connector_types, name='get_connector_types'),
 
     #accounts
     path('login/', login_view, name='login'),

@@ -20,3 +20,10 @@ def get_chargers(request, *args, **kwargs):
     if request.method == 'GET':
         r = requests.get('https://chargepoints.dft.gov.uk/api/retrieve/registry/?format=json', params=request.GET)
     return Response(r.json())
+
+
+@api_view(['GET'])
+def get_connector_types(request, *args, **kwargs):
+    if request.method == 'GET':
+        r = requests.get('https://chargepoints.dft.gov.uk/api/retrieve/type?format=json', params=request.GET)
+    return Response(r.json())

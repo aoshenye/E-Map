@@ -221,7 +221,7 @@ const getDirections = async (origin, destination, directionsService, { direction
       travelMode: 'DRIVING',
       [avoidables[i]]: true
     })
-  
+    
     directionsService.route(config(), function (response, status) {
       if (status === 'OK') {
    
