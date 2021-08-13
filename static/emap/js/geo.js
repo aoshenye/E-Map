@@ -27,6 +27,8 @@ function initMap() {
   var directionDisplaysAvoidFerries = new google.maps.DirectionsRenderer;
   var directionDisplaysAvoidHighways = new google.maps.DirectionsRenderer;
   var directionDisplaysAvoidTolls = new google.maps.DirectionsRenderer
+  // var directionStepByStep = new google.maps.DirectionsRenderer
+
 
   //Change Line Colors
   directionsDisplayPrimary.setOptions({
@@ -35,9 +37,8 @@ function initMap() {
     }
   })
 
-// Call function and Pass In Locations. Pass In  A Function For the last Argument As It Will Return Organized Data (Directions, Duration And Other Data)
-//   getDirections("California", "Maine", directionsService, { directionsDisplayPrimary, directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls }, (cb) => console.log('here =>', cb))
-
+  // Call function and Pass In Locations. Pass In  A Function For the last Argument As It Will Return Organized Data (Directions, Duration And Other Data)
+  //   getDirections("California", "Maine", directionsService, { directionsDisplayPrimary, directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls }, (cb) => console.log('here =>', cb))
 
 
   directionsDisplayPrimary.setMap(map);
@@ -45,32 +46,33 @@ function initMap() {
   directionDisplaysAvoidHighways.setMap(map)
   directionDisplaysAvoidFerries.setMap(map)
 
+
   const locationButton = document.createElement("button")
   locationButton.textContent = "Pan to Current Location"
   locationButton.classList.add("custom-map-control-button")
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton)
   locationButton.addEventListener("click", () => {
-      // Try HTML5 geolocation.
-      if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-              (position) => {
-                  const pos = {
-                      lat: position.coords.latitude,
-                      lng: position.coords.longitude,
-                  }
-    
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }
 
-                  // adds async marker
-                  // addCharger(map, pos, dist)
-              },
-              () => {
-                  handleLocationError(true, infoWindow, map.getCenter())
-              }
-          )
-      } else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter())
-      }
+
+          // adds async marker
+          // addCharger(map, pos, dist)
+        },
+        () => {
+          handleLocationError(true, infoWindow, map.getCenter())
+        }
+      )
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow, map.getCenter())
+    }
   })
 
   const destination_input = document.getElementById('menu-destination')
@@ -86,7 +88,7 @@ function initMap() {
   const currLocation_autocomplete = new google.maps.places.Autocomplete(curr_location, options);
   destination_autocomplete.bindTo("bounds", map);
   currLocation_autocomplete.bindTo("bounds", map);
-  
+
 
 
   destination_autocomplete.addListener("place_changed", () => {
@@ -155,42 +157,42 @@ function initMap() {
   newLocationButton.classList.add("custom-map-control-button")
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(newLocationButton)
   newLocationButton.addEventListener("click", () => {
-      const center = map.getCenter()
-      let pos = {
-          lat: center.lat(),
-          lng: center.lng(),
-      }
+    const center = map.getCenter()
+    let pos = {
+      lat: center.lat(),
+      lng: center.lng(),
+    }
 
-      deleteMarkers()
-      addCharger(map, pos, dist)
+    deleteMarkers()
+    addCharger(map, pos, dist)
   })
 }
 
 function autocompleteCallback() {
-    infowindow.close()
-    const place = autocomplete.getPlace()
+  infowindow.close()
+  const place = autocomplete.getPlace()
 
-    if (!place.geometry) {
-        return
-    }
+  if (!place.geometry) {
+    return
+  }
 
-    if (place.geometry.viewport) {
-        map.fitBounds(place.geometry.viewport)
-    } else {
-        map.setCenter(place.geometry.location)
-        map.setZoom(17)
-    }
+  if (place.geometry.viewport) {
+    map.fitBounds(place.geometry.viewport)
+  } else {
+    map.setCenter(place.geometry.location)
+    map.setZoom(17)
+  }
 
-    // Position of marker using place ID and location
-    mapPlaceMarker.setPlace({
-        placeId: place.place_id,
-        location: place.geometry.location,
-    })
-    mapPlaceMarker.setVisible(true)
-    infowindowContent.children.namedItem("place-name").textContent = place.name
+  // Position of marker using place ID and location
+  mapPlaceMarker.setPlace({
+    placeId: place.place_id,
+    location: place.geometry.location,
+  })
+  mapPlaceMarker.setVisible(true)
+  infowindowContent.children.namedItem("place-name").textContent = place.name
 
-    infowindowContent.children.namedItem("place-address").textContent = place.formatted_address
-    infowindow.open(map, mapPlaceMarker)
+  infowindowContent.children.namedItem("place-address").textContent = place.formatted_address
+  infowindow.open(map, mapPlaceMarker)
 }
 /**
  * 
@@ -201,8 +203,8 @@ function autocompleteCallback() {
  * @param {*} callback 
  * @param {*} avoidables 
  */
-const getDirections = async (origin, destination, directionsService, { directionsDisplayPrimary, directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls }, callback, avoidables) => {
- 
+const getDirections = async (origin, destination, directionsService, { directionsDisplayPrimary, directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls, }, callback, avoidables) => {
+
   const callBackData = {
     primary: null,
     ferries: null,
@@ -211,20 +213,20 @@ const getDirections = async (origin, destination, directionsService, { direction
   }
   for (let i = 0; i < avoidables.length; i++) {
 
-    const config = () => avoidables[i] === "primary"? ({
+    const config = () => avoidables[i] === "primary" ? ({
       origin: origin,
       destination: destination,
       travelMode: 'DRIVING',
     }) : ({
       origin: origin,
       destination: destination,
-      travelMode: 'DRIVING',
+      travelMode: google.maps.TravelMode.DRIVING,
       [avoidables[i]]: true
     })
-    
+
     directionsService.route(config(), function (response, status) {
       if (status === 'OK') {
-   
+
         if (avoidables[i] === "avoidFerries") {
           callBackData.ferries = response
           directionDisplaysAvoidFerries.setDirections(response)
@@ -235,13 +237,13 @@ const getDirections = async (origin, destination, directionsService, { direction
           callBackData.tolls = response
           directionDisplaysAvoidTolls.setDirections(response)
         } else if (avoidables[i] === "primary") {
-            directionsDisplayPrimary.setDirections(response)
+          directionsDisplayPrimary.setDirections(response)
         }
 
-        
+
         callBackData.primary = response
         directionsDisplayPrimary.setDirections(response);
-        
+
 
       } else {
 
@@ -252,7 +254,7 @@ const getDirections = async (origin, destination, directionsService, { direction
       callback(callBackData)
     });
 
-} 
+  }
 
 }
 

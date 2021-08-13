@@ -9,7 +9,7 @@ const findRoute = () => {
         zoom: 13, // was 13
     })
 
-    const menu =  document.getElementById("menu")
+    const menu = document.getElementById("menu")
     const mapEl = document.getElementById("map")
 
     const ferriesInput = document.getElementById("cb-ferries").checked
@@ -42,9 +42,10 @@ const findRoute = () => {
     directionDisplaysAvoidTolls.setMap(map)
     directionDisplaysAvoidHighways.setMap(map)
     directionDisplaysAvoidFerries.setMap(map)
+    directionsDisplayPrimary.setPanel(document.getElementById('directionsPanel'));
 
-    if(mapEl.style.display === "none") {
-     
+    if (mapEl.style.display === "none") {
+
         menu.style.display = "none";
         mapEl.style.display = "block"
     }
@@ -60,15 +61,15 @@ const findRoute = () => {
 }
 
 const hideMenu = () => {
-   const menu =  document.getElementById("menu")
-   const map = document.getElementById("map") 
-    let isToggledState = menu.style.display 
-        if(!isToggledState || isToggledState === 'none') {
-            menu.style.display = "block"
-            map.style.display = "none"
-        } else {
-            menu.style.display = "none"
-            map.style.display = "block"
-        }
+    const menu = document.getElementById("menu")
+    const map = document.getElementById("map")
+    let isToggledState = menu.style.display
+    if (!isToggledState || isToggledState === 'none') {
+        menu.style.display = "block"
+        map.style.display = "none"
+    } else {
+        menu.style.display = "none"
+        map.style.display = "block"
+    }
     console.log(isToggledState)
 }

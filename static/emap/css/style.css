@@ -142,3 +142,23 @@ body {
 .header {
     background: blue;
 }
+
+/*--------------------------------------------Map*/
+
+#directionsPanel {
+    flex: 0 1 auto;
+    padding: 0;
+}
+#directionsPanel > div {
+    padding: 0.5rem;
+}
+
+#directionsPanel {
+    flex-basis: 15rem;
+    flex-grow: 1;
+    padding: 1rem;
+    max-width: 50rem;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+}
