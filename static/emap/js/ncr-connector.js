@@ -32,6 +32,7 @@ function generateMarkerTooltip(device) {
  * @param {*} device charger device containing location and data (look above for structure)
  */
 function addMarker(map, device) {
+
     const infoWindow = new google.maps.InfoWindow({
         content: generateMarkerTooltip(device),
     })
@@ -79,6 +80,7 @@ function addMarker(map, device) {
  * @param {*} dist The radius around location to show chargers.
  */
 async function addCharger(map, location, dist) {
+    console.log("Adding chargers...")
     if (!location.lat || !location.lng)
         return console.log("location must be an object: {lat: number, lng: number}")
 

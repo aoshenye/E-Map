@@ -226,20 +226,33 @@ const getDirections = async (origin, destination, directionsService, { direction
 
     directionsService.route(config(), function (response, status) {
       if (status === 'OK') {
-
         if (avoidables[i] === "avoidFerries") {
+          console.log("AVOID FERRIES")
           callBackData.ferries = response
           directionDisplaysAvoidFerries.setDirections(response)
         } else if (avoidables[i] === "avoidHighways") {
+          console.log("AVOID HIGHWAYS")
           callBackData.highway = response
           directionDisplaysAvoidHighways.setDirections(response)
         } else if (avoidables[i] === "avoidTolls") {
+          console.log("AVOID TOLLS")
           callBackData.tolls = response
           directionDisplaysAvoidTolls.setDirections(response)
         } else if (avoidables[i] === "primary") {
-          directionsDisplayPrimary.setDirections(response)
-        }
 
+          directionsDisplayPrimary.setDirections(response)
+          console.log("AVOID PRIMARY")
+          if (avoidables.includes("suggestCharges")) {
+            console.log("AVOID SUGGEST CHARGES")
+            const center = map.getCenter()
+            let pos = {
+              lat: center.lat(),
+              lng: center.lng(),
+            }
+            deleteMarkers()
+            addCharger(map, pos, dist)
+          }
+        }
 
         callBackData.primary = response
         directionsDisplayPrimary.setDirections(response);
