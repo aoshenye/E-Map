@@ -51,11 +51,8 @@ const findRoute = () => {
     const options = {}
     const origin = document.getElementById("menu-myLocation").value
     const destination = document.getElementById("menu-destination").value
-    console.log(origin)
-    console.log(destination)
-    //console.log(directionService)
-    console.log({ directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls, directionsDisplayPrimary })
-    getDirections(origin, destination, directionsService, { directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls, directionsDisplayPrimary }, () => { }, avoidables)
+
+    getDirections(origin, destination, directionsService, { directionsDisplayPrimary }, () => { }, avoidables)
 }
 
 const hideMenu = () => {

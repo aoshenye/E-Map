@@ -23,10 +23,12 @@ function initMap() {
   // adds async marker
   // addCharger(map, london, dist)
   var directionsService = new google.maps.DirectionsService;
-  var directionsDisplayPrimary = new google.maps.DirectionsRenderer;
-  var directionDisplaysAvoidFerries = new google.maps.DirectionsRenderer;
-  var directionDisplaysAvoidHighways = new google.maps.DirectionsRenderer;
-  var directionDisplaysAvoidTolls = new google.maps.DirectionsRenderer
+  var directionsDisplayPrimary = new google.maps.DirectionsRenderer({
+    suppressMarkers: true
+  });
+  // var directionDisplaysAvoidFerries = new google.maps.DirectionsRenderer;
+  // var directionDisplaysAvoidHighways = new google.maps.DirectionsRenderer;
+  // var directionDisplaysAvoidTolls = new google.maps.DirectionsRenderer
   // var directionStepByStep = new google.maps.DirectionsRenderer
 
 
@@ -42,9 +44,9 @@ function initMap() {
 
 
   directionsDisplayPrimary.setMap(map);
-  directionDisplaysAvoidTolls.setMap(map)
-  directionDisplaysAvoidHighways.setMap(map)
-  directionDisplaysAvoidFerries.setMap(map)
+  // directionDisplaysAvoidTolls.setMap(map)
+  // directionDisplaysAvoidHighways.setMap(map)
+  // directionDisplaysAvoidFerries.setMap(map)
 
 
   const locationButton = document.createElement("button")
@@ -145,13 +147,6 @@ function initMap() {
     infowindow.open(map, marker);
   });
 
-
-
-
-
-
-
-
   const newLocationButton = document.createElement("button")
   newLocationButton.textContent = "Use this as new location"
   newLocationButton.classList.add("custom-map-control-button")
@@ -166,6 +161,9 @@ function initMap() {
     deleteMarkers()
     addCharger(map, pos, dist)
   })
+
+
+
 }
 
 function autocompleteCallback() {
@@ -203,71 +201,124 @@ function autocompleteCallback() {
  * @param {*} callback 
  * @param {*} avoidables 
  */
-const getDirections = async (origin, destination, directionsService, { directionsDisplayPrimary, directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls, }, callback, avoidables) => {
+const getDirections = async (origin, destination, directionsService, { directionsDisplayPrimary }, callback, avoidables) => {
 
+  console.log(origin)
+  console.log(destination)
+  var geocoder = new google.maps.Geocoder();
+  geocoder.geocode({
+    "address": origin
+  }, function (results) {
+    console.log(results); //LatLng
+  });
   const callBackData = {
     primary: null,
     ferries: null,
     highway: null,
     tolls: null
   }
-  for (let i = 0; i < avoidables.length; i++) {
 
-    const config = () => avoidables[i] === "primary" ? ({
-      origin: origin,
-      destination: destination,
-      travelMode: 'DRIVING',
-    }) : ({
-      origin: origin,
-      destination: destination,
-      travelMode: google.maps.TravelMode.DRIVING,
-      [avoidables[i]]: true
-    })
+  const center = map.getCenter()
+  let pos = {
+    lat: center.lat(),
+    lng: center.lng(),
+  }
 
-    directionsService.route(config(), function (response, status) {
-      if (status === 'OK') {
-        if (avoidables[i] === "avoidFerries") {
-          console.log("AVOID FERRIES")
-          callBackData.ferries = response
-          directionDisplaysAvoidFerries.setDirections(response)
-        } else if (avoidables[i] === "avoidHighways") {
-          console.log("AVOID HIGHWAYS")
-          callBackData.highway = response
-          directionDisplaysAvoidHighways.setDirections(response)
-        } else if (avoidables[i] === "avoidTolls") {
-          console.log("AVOID TOLLS")
-          callBackData.tolls = response
-          directionDisplaysAvoidTolls.setDirections(response)
-        } else if (avoidables[i] === "primary") {
+  console.log("Adding chargers...")
+  if (!pos.lat || !pos.lng)
+    return console.log("location must be an object: {lat: number, lng: number}")
 
-          directionsDisplayPrimary.setDirections(response)
-          console.log("AVOID PRIMARY")
-          if (avoidables.includes("suggestCharges")) {
-            console.log("AVOID SUGGEST CHARGES")
-            const center = map.getCenter()
-            let pos = {
-              lat: center.lat(),
-              lng: center.lng(),
-            }
-            deleteMarkers()
-            addCharger(map, pos, dist)
+  let lat = pos.lat.toString()
+  lat = lat.substring(0, Math.min(lat.length, 9))
+  let lng = pos.lng.toString()
+  lng = lng.substring(0, Math.min(lat.length, 9))
+
+  const connectorFilter =
+    selectedConnectorType === "-1" ? "" : "&connector-type-id=" + selectedConnectorType
+
+  // const url =
+  //     `https://chargepoints.dft.gov.uk/api/retrieve/registry/?format=json&dist=${dist}&long=${lng}&lat=${lat}` +
+  //     connectorFilter
+
+  const url = '/get-chargers?' + `&dist=${dist}&long=${lng}&lat=${lat}` + connectorFilter
+
+  onload = (http, e) => {
+    try {
+      if (handleHttpError(http)) return
+
+      let response = http.response
+
+      let devices = response.ChargeDevice
+      devices_index = parseInt(Math.random() * devices.length)
+      console.log(devices_index)
+      chargepointLocation = devices[devices_index].ChargeDeviceLocation
+
+
+      wypts = []
+      wypts.push({
+        location: new google.maps.LatLng(parseFloat(chargepointLocation.Latitude), parseFloat(chargepointLocation.Longitude)),
+        stopover: true
+      })
+      for (let i = 0; i < avoidables.length; i++) {
+
+        const config = () => avoidables[i] === "primary" ? ({
+          origin: origin,
+          destination: destination,
+          waypoints: wypts,
+          travelMode: google.maps.TravelMode.DRIVING,
+        }) : ({
+          origin: origin,
+          destination: destination,
+          travelMode: google.maps.TravelMode.DRIVING,
+          [avoidables[i]]: true
+        })
+
+        directionsService.route(config(), function (response, status) {
+          if (status === 'OK') {
+
+
+            callBackData.primary = response
+            directionsDisplayPrimary.setDirections(response);
+            var route = response.routes[0];
+            // start marker
+            console.log(route)
+
+
+
+          } else {
+
+            alert('Directions request failed due to ' + status);
+
           }
-        }
 
-        callBackData.primary = response
-        directionsDisplayPrimary.setDirections(response);
-
-
-      } else {
-
-        alert('Directions request failed due to ' + status);
+          callback(callBackData)
+        });
 
       }
+      return response
 
-      callback(callBackData)
-    });
-
+      // for (let i = 0; i < devices.length; i++) {
+      //     const device = devices[i]
+      //     console.log(device)
+      // }
+    } catch (err) {
+      if (err instanceof SyntaxError) {
+        console.log("API response object, is no valid JSON object")
+      } else if (err instanceof TypeError) {
+        console.log("No Chargedevices provided by the API")
+      } else {
+        console.log(err)
+      }
+    }
   }
+
+  apicall_get(url, onload, handleUnexpectedError)
+
+
+
+
+
+
 
 }
 

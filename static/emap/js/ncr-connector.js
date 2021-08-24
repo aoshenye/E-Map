@@ -32,27 +32,29 @@ function generateMarkerTooltip(device) {
  * @param {*} device charger device containing location and data (look above for structure)
  */
 function addMarker(map, device) {
-
     const infoWindow = new google.maps.InfoWindow({
         content: generateMarkerTooltip(device),
     })
+
     try {
         const loc = device.ChargeDeviceLocation
         const marker = new google.maps.Marker({
             position: {
-                lat: Number.parseFloat(loc.Latitude),
+                // lat: Number.parseFloat(loc.Latitude),
+                lat: 0.0,
                 lng: Number.parseFloat(loc.Longitude),
             },
             map: map,
             icon: "static/smallicon.JPG",
-            optimized: false,
+            // optimized: false,
         })
 
         marker.addListener("click", () => {
+            infoWindow.setContent(content);
             infoWindow.open({
-                anchor: marker,
+                // anchor: marker,
                 map,
-                shouldFocus: false,
+                // shouldFocus: false,
             })
         })
 
@@ -108,7 +110,6 @@ async function addCharger(map, location, dist) {
 
             for (let i = 0; i < devices.length; i++) {
                 const device = devices[i]
-
                 addMarker(map, device)
             }
         } catch (err) {
@@ -121,6 +122,54 @@ async function addCharger(map, location, dist) {
             }
         }
     }
+    apicall_get(url, onload, handleUnexpectedError)
+}
+
+
+async function getChargers(map, location, dist) {
+    console.log("Adding chargers...")
+    if (!location.lat || !location.lng)
+        return console.log("location must be an object: {lat: number, lng: number}")
+
+    let lat = location.lat.toString()
+    lat = lat.substring(0, Math.min(lat.length, 9))
+    let lng = location.lng.toString()
+    lng = lng.substring(0, Math.min(lat.length, 9))
+
+    const connectorFilter =
+        selectedConnectorType === "-1" ? "" : "&connector-type-id=" + selectedConnectorType
+
+    // const url =
+    //     `https://chargepoints.dft.gov.uk/api/retrieve/registry/?format=json&dist=${dist}&long=${lng}&lat=${lat}` +
+    //     connectorFilter
+
+    const url = '/get-chargers?' + `&dist=${dist}&long=${lng}&lat=${lat}` + connectorFilter
+
+    onload = (http, e) => {
+        try {
+            if (handleHttpError(http)) return
+
+            let response = http.response
+
+            let devices = response.ChargeDevice
+
+            return response
+
+            // for (let i = 0; i < devices.length; i++) {
+            //     const device = devices[i]
+            //     console.log(device)
+            // }
+        } catch (err) {
+            if (err instanceof SyntaxError) {
+                console.log("API response object, is no valid JSON object")
+            } else if (err instanceof TypeError) {
+                console.log("No Chargedevices provided by the API")
+            } else {
+                console.log(err)
+            }
+        }
+    }
+
     apicall_get(url, onload, handleUnexpectedError)
 }
 
