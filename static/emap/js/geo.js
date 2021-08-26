@@ -217,12 +217,38 @@ const getDirections = async (origin, destination, directionsService, { direction
     highway: null,
     tolls: null
   }
+  for (let i = 0; i < avoidables.length; i++) {
 
-  const center = map.getCenter()
-  let pos = {
-    lat: center.lat(),
-    lng: center.lng(),
-  }
+    const config = () => avoidables[i] === "primary" ? ({
+      origin: origin,
+      destination: destination,
+      travelMode: 'DRIVING',
+    }) : ({
+      origin: origin,
+      destination: destination,
+      travelMode: google.maps.TravelMode.DRIVING,
+      [avoidables[i]]: true
+    })
+
+    directionsService.route(config(), function (response, status) {
+      if (status === 'OK') {
+
+        if (avoidables[i] === "avoidFerries") {
+          callBackData.ferries = response
+          directionDisplaysAvoidFerries.setDirections(response)
+        } else if (avoidables[i] === "avoidHighways") {
+          callBackData.highway = response
+          directionDisplaysAvoidHighways.setDirections(response)
+        } else if (avoidables[i] === "avoidTolls") {
+          callBackData.tolls = response
+          directionDisplaysAvoidTolls.setDirections(response)
+        } else if (avoidables[i] === "primary") {
+          directionsDisplayPrimary.setDirections(response)
+        }
+
+
+        callBackData.primary = response
+        directionsDisplayPrimary.setDirections(response);
 
   console.log("Adding chargers...")
   if (!pos.lat || !pos.lng)

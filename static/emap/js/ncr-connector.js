@@ -82,7 +82,6 @@ function addMarker(map, device) {
  * @param {*} dist The radius around location to show chargers.
  */
 async function addCharger(map, location, dist) {
-    console.log("Adding chargers...")
     if (!location.lat || !location.lng)
         return console.log("location must be an object: {lat: number, lng: number}")
 

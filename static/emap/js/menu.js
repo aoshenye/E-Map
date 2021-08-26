@@ -11,21 +11,23 @@ const findRoute = () => {
 
     const menu = document.getElementById("menu")
     const mapEl = document.getElementById("map")
-    // const ferriesInput = document.getElementById("cb-ferries").checked
+
+    const ferriesInput = document.getElementById("cb-ferries").checked
     const highwayInput = document.getElementById("cb-highway").checked
-    // const tollsInput = document.getElementById("cb-toll").checked
-    const suggestCharges = document.getElementById("cb-suggest-charges").checked
+    const tollsInput = document.getElementById("cb-toll").checked
 
     let avoidables = ["primary"]
-    let customizedOptions = ['ferries', 'highway', 'tolls', 'suggest']
+    let customizedOptions = ['ferries', 'highway', 'tolls']
     customizedOptions.forEach((option => {
         switch (option) {
+            case 'ferries':
+                ferriesInput ? avoidables.push("avoidFerries") : null
+                return
             case 'highway':
                 highwayInput ? avoidables.push("avoidHighways") : null
                 return
-            case 'suggest':
-                suggestCharges ? avoidables.push("suggestCharges") : null
-                return
+            case 'tolls':
+                tollsInput ? avoidables.push("avoidTolls") : null
         }
     }))
     //     console.log(avoidables)
