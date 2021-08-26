@@ -40,8 +40,7 @@ function addMarker(map, device) {
         const loc = device.ChargeDeviceLocation
         const marker = new google.maps.Marker({
             position: {
-                // lat: Number.parseFloat(loc.Latitude),
-                lat: 0.0,
+                lat: Number.parseFloat(loc.Latitude),
                 lng: Number.parseFloat(loc.Longitude),
             },
             map: map,
@@ -108,8 +107,7 @@ async function addCharger(map, location, dist) {
             let devices = response.ChargeDevice
 
             for (let i = 0; i < devices.length; i++) {
-                const device = devices[i]
-                addMarker(map, device)
+                addMarker(map, devices[i])
             }
         } catch (err) {
             if (err instanceof SyntaxError) {
