@@ -39,62 +39,10 @@
 
 
     <!--The div element for the map -->
-    <div id="content">
-        <button id="menuButton" onclick="hideMenu()">Menu</button>
-        <div id="menu">
-            <div style="display: block;" class="menu-content">
-                <section>
-                    <label class="menu-header">Enter Route</label>
 
-                </section>
-                <section>
-                    <input placeholder="Destination" id="menu-myLocation" class="underlinedInput" />
-                </section>
-                <section style="margin-top: 20px;">
-                    <input placeholder="Destination" id="menu-destination" class="underlinedInput" />
-                </section>
-                <section>
-                    <!-- <button onclick="findRoute()">Go!</button> -->
-                </section>
-                <div style="color: #0059E8; margin-top: 20px;">
-                    <label style="margin-top: 20;" class="menu-header">Route Options</label>
-                    <section>
-                        <input type="checkbox" style="color: white;" class="checkBox" id="cb-highway" name="vehicle1"
-                            value="Bike">
-                        <label for="highway"> No Highway</label><br>
-                        <input type="checkbox" id="cb-toll" name="vehicle2" value="Car">
-                        <label for="tolls">No Tolls</label><br>
-                        <input type="checkbox" id="cb-ferries" name="vehicle3" value="Boat">
-                        <label for="vehicle3"> No Ferries</label><br>
-                    </section>
-                </div>
-                <div style="margin-top: 20px;">
-                    <label class="menu-header">Route Options</label>
-                    <section style="color: #0059E8; display: flex;">
-                        <section>
-                            <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-                            <label for="tolls">Only</label><br>
-                        </section>
-                        <section style="margin-left: 25px;">
-                            <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-                            <label for="tolls">Suggest Charges</label><br>
-                        </section>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+    <div id="map"></div>
 
-                    </section>
-                </div>
-                <div style="display: flex; justify-content: center;width: 100%; margin-top:20px;">
-                    <button id="goButton" onclick="findRoute()">Go!</button>
-                </div>
-            </div>
-        </div>
-        <div id="map"></div>
-        <div id="infowindow-content">
-            <span id="place-name" class="title"></span><br />
-            <span id="place-address"></span>
-        </div>
-
-    </div>
-    <div id="directionsPanel"></div>
     <footer>
         <p>
 

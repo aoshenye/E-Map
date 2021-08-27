@@ -14,41 +14,70 @@ function initMap() {
     lng: -0.24594910113586943,
   }
 
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: london, // was initialLocation,
-    zoom: 13, // was 13
-  })
-
-
-  // adds async marker
-  // addCharger(map, london, dist)
-  var directionsService = new google.maps.DirectionsService;
-  var directionsDisplayPrimary = new google.maps.DirectionsRenderer({
-    suppressMarkers: true
+  const map = new google.maps.Map(document.getElementById("map"), {
+    center: london,
+    zoom: 13,
+    mapTypeId: "roadmap",
   });
-  // var directionDisplaysAvoidFerries = new google.maps.DirectionsRenderer;
-  // var directionDisplaysAvoidHighways = new google.maps.DirectionsRenderer;
-  // var directionDisplaysAvoidTolls = new google.maps.DirectionsRenderer
-  // var directionStepByStep = new google.maps.DirectionsRenderer
 
+  //====================SEARCH BOX===========================
+  // Create the search box and link it to the UI element.
+  const input = document.getElementById("pac-input");
+  const searchBox = new google.maps.places.SearchBox(input);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener("bounds_changed", () => {
+    searchBox.setBounds(map.getBounds());
+  });
+  let markers = [];
+  // Listen for the event fired when the user selects a prediction and retrieve
+  // more details for that place.
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
 
-  //Change Line Colors
-  directionsDisplayPrimary.setOptions({
-    polylineOptions: {
-      strokeColor: 'red'
+    if (places.length == 0) {
+      return;
     }
-  })
+    // Clear out the old markers.
+    markers.forEach((marker) => {
+      marker.setMap(null);
+    });
+    markers = [];
+    // For each place, get the icon, name and location.
+    const bounds = new google.maps.LatLngBounds();
+    places.forEach((place) => {
+      if (!place.geometry || !place.geometry.location) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+      const icon = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25),
+      };
+      // Create a marker for each place.
+      markers.push(
+        new google.maps.Marker({
+          map,
+          icon,
+          title: place.name,
+          position: place.geometry.location,
+        })
+      );
 
-  // Call function and Pass In Locations. Pass In  A Function For the last Argument As It Will Return Organized Data (Directions, Duration And Other Data)
-  //   getDirections("California", "Maine", directionsService, { directionsDisplayPrimary, directionDisplaysAvoidFerries, directionDisplaysAvoidHighways, directionDisplaysAvoidTolls }, (cb) => console.log('here =>', cb))
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+    map.fitBounds(bounds);
+  });
 
-
-  directionsDisplayPrimary.setMap(map);
-  // directionDisplaysAvoidTolls.setMap(map)
-  // directionDisplaysAvoidHighways.setMap(map)
-  // directionDisplaysAvoidFerries.setMap(map)
-
-
+  //====================Current Location======================
   const locationButton = document.createElement("button")
   locationButton.textContent = "Pan to Current Location"
   locationButton.classList.add("custom-map-control-button")
@@ -77,76 +106,7 @@ function initMap() {
     }
   })
 
-  const destination_input = document.getElementById('menu-destination')
-  const curr_location = document.getElementById('menu-myLocation')
-  const options = {
-    componentRestrictions: { country: "uk" },
-    fields: ["formatted_address", "geometry", "name"],
-    strictBounds: false,
-    types: ["establishment"],
-  };
-
-  const destination_autocomplete = new google.maps.places.Autocomplete(destination_input, options);
-  const currLocation_autocomplete = new google.maps.places.Autocomplete(curr_location, options);
-  destination_autocomplete.bindTo("bounds", map);
-  currLocation_autocomplete.bindTo("bounds", map);
-
-
-
-  destination_autocomplete.addListener("place_changed", () => {
-    infowindow.close();
-    marker.setVisible(false);
-    const place = autocomplete.getPlace();
-
-    if (!place.geometry || !place.geometry.location) {
-      // User entered the name of a Place that was not suggested and
-      // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for input: '" + place.name + "'");
-      return;
-    }
-
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
-    }
-    marker.setPosition(place.geometry.location);
-    marker.setVisible(true);
-    infowindowContent.children["place-name"].textContent = place.name;
-    infowindowContent.children["place-address"].textContent =
-      place.formatted_address;
-    infowindow.open(map, marker);
-  });
-
-  currLocation_autocomplete.addListener("place_changed", () => {
-    infowindow.close();
-    marker.setVisible(false);
-    const place = autocomplete.getPlace();
-
-    if (!place.geometry || !place.geometry.location) {
-      // User entered the name of a Place that was not suggested and
-      // pressed the Enter key, or the Place Details request failed.
-      window.alert("No details available for input: '" + place.name + "'");
-      return;
-    }
-
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
-    }
-    marker.setPosition(place.geometry.location);
-    marker.setVisible(true);
-    infowindowContent.children["place-name"].textContent = place.name;
-    infowindowContent.children["place-address"].textContent =
-      place.formatted_address;
-    infowindow.open(map, marker);
-  });
-
+  //=====================LOAD CHARGEPOINTS======================
   const newLocationButton = document.createElement("button")
   newLocationButton.textContent = "Use this as new location"
   newLocationButton.classList.add("custom-map-control-button")
@@ -162,96 +122,4 @@ function initMap() {
     addCharger(map, pos, dist)
   })
 
-
-
 }
-
-function autocompleteCallback() {
-  infowindow.close()
-  const place = autocomplete.getPlace()
-
-  if (!place.geometry) {
-    return
-  }
-
-  if (place.geometry.viewport) {
-    map.fitBounds(place.geometry.viewport)
-  } else {
-    map.setCenter(place.geometry.location)
-    map.setZoom(17)
-  }
-
-  // Position of marker using place ID and location
-  mapPlaceMarker.setPlace({
-    placeId: place.place_id,
-    location: place.geometry.location,
-  })
-  mapPlaceMarker.setVisible(true)
-  infowindowContent.children.namedItem("place-name").textContent = place.name
-
-  infowindowContent.children.namedItem("place-address").textContent = place.formatted_address
-  infowindow.open(map, mapPlaceMarker)
-}
-/**
- * 
- * @param {*} origin 
- * @param {*} destination 
- * @param {*} directionsService 
- * @param {*} param3 
- * @param {*} callback 
- * @param {*} avoidables 
- */
-const getDirections = async (origin, destination, directionsService, { directionsDisplayPrimary }, callback, avoidables) => {
-
-  console.log(origin)
-  console.log(destination)
-  const callBackData = {
-    primary: null,
-    ferries: null,
-    highway: null,
-    tolls: null
-  }
-  for (let i = 0; i < avoidables.length; i++) {
-
-    const config = () => avoidables[i] === "primary" ? ({
-      origin: origin,
-      destination: destination,
-      travelMode: 'DRIVING',
-    }) : ({
-      origin: origin,
-      destination: destination,
-      travelMode: google.maps.TravelMode.DRIVING,
-      [avoidables[i]]: true
-    })
-
-    directionsService.route(config(), function (response, status) {
-      if (status === 'OK') {
-
-
-        if (avoidables[i] === "avoidFerries") {
-          callBackData.ferries = response
-          directionDisplaysAvoidFerries.setDirections(response)
-        } else if (avoidables[i] === "avoidHighways") {
-          callBackData.highway = response
-          directionDisplaysAvoidHighways.setDirections(response)
-        } else if (avoidables[i] === "avoidTolls") {
-          callBackData.tolls = response
-          directionDisplaysAvoidTolls.setDirections(response)
-        } else if (avoidables[i] === "primary") {
-          directionsDisplayPrimary.setDirections(response)
-        }
-
-        callBackData.primary = response
-        directionsDisplayPrimary.setDirections(response);
-      } else {
-
-        alert('Directions request failed due to ' + status);
-
-      }
-
-      callback(callBackData)
-
-    });
-  }
-}
-
