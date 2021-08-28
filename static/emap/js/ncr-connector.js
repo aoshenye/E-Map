@@ -13,7 +13,9 @@ let selectedConnectorType = "-1"
  */
 function generateMarkerTooltip(device, origin) {
     const loc = device.ChargeDeviceLocation
-
+    console.log(loc.Latitude)
+    console.log(loc.Longitude)
+    console.log(origin)
     return `
     <div>
         <p class="markerName">${device.ChargeDeviceName}</p>
@@ -105,11 +107,19 @@ async function addCharger(map, location, dist) {
             let response = http.response
 
             let devices = response.ChargeDevice
+            
             search_value = document.getElementById("pac-input").value
+
             if (!search_value) {
                 const center = map.getCenter()
                 search_value = `${center.lat()},${center.lng()}`
             }
+
+            if (currentLocation) {
+                search_value = `${currentLocation.lat},${currentLocation.lng}`
+            }
+
+            console.log(search_value)
 
             for (let i = 0; i < devices.length; i++) {
                 addMarker(map, devices[i], search_value)

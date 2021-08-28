@@ -1,5 +1,6 @@
 var map
 var autocomplete
+var currentLocation
 var infowindowContent
 var mapPlaceMarker
 var service
@@ -92,7 +93,7 @@ function initMap() {
             lng: position.coords.longitude,
           }
 
-
+          currentLocation = pos
           // adds async marker
           // addCharger(map, pos, dist)
         },
