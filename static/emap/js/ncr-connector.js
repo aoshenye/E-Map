@@ -11,7 +11,7 @@ let selectedConnectorType = "-1"
  * @param {*} device JSON object returned from the API
  * @returns string HTML content
  */
-function generateMarkerTooltip(device) {
+function generateMarkerTooltip(device, origin) {
     const loc = device.ChargeDeviceLocation
 
     return `
@@ -20,6 +20,7 @@ function generateMarkerTooltip(device) {
         <p class="markerStatus"> Status: ${device.ChargeDeviceStatus}</p>
         <p class="markerLocation">${loc.Latitude}, ${loc.Longitude}</p>
         <p class="markerAddress">${loc.Address.Street}, ${loc.Address.PostCode}</p>
+        <button class="btn btn-success" onclick=" window.open('https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&origin=${origin}&destination=${loc.Latitude},${loc.Longitude}','_blank')">Directions</button>
     </div>
     `
 }
@@ -31,9 +32,9 @@ function generateMarkerTooltip(device) {
  * @param {*} map map to place the marker on
  * @param {*} device charger device containing location and data (look above for structure)
  */
-function addMarker(map, device) {
+function addMarker(map, device, origin) {
     const infoWindow = new google.maps.InfoWindow({
-        content: generateMarkerTooltip(device),
+        content: generateMarkerTooltip(device, origin),
     })
 
     try {
@@ -49,13 +50,12 @@ function addMarker(map, device) {
         })
 
         marker.addListener("click", () => {
-            infoWindow.setContent(content);
             infoWindow.open({
-                // anchor: marker,
+                anchor: marker,
                 map,
-                // shouldFocus: false,
-            })
-        })
+                shouldFocus: false,
+            });
+        });
 
         markers.push(marker)
     } catch (err) {
@@ -105,9 +105,14 @@ async function addCharger(map, location, dist) {
             let response = http.response
 
             let devices = response.ChargeDevice
+            search_value = document.getElementById("pac-input").value
+            if (!search_value) {
+                const center = map.getCenter()
+                search_value = `${center.lat()},${center.lng()}`
+            }
 
             for (let i = 0; i < devices.length; i++) {
-                addMarker(map, devices[i])
+                addMarker(map, devices[i], search_value)
             }
         } catch (err) {
             if (err instanceof SyntaxError) {
@@ -122,53 +127,6 @@ async function addCharger(map, location, dist) {
     apicall_get(url, onload, handleUnexpectedError)
 }
 
-
-async function getChargers(map, location, dist) {
-    console.log("Adding chargers...")
-    if (!location.lat || !location.lng)
-        return console.log("location must be an object: {lat: number, lng: number}")
-
-    let lat = location.lat.toString()
-    lat = lat.substring(0, Math.min(lat.length, 9))
-    let lng = location.lng.toString()
-    lng = lng.substring(0, Math.min(lat.length, 9))
-
-    const connectorFilter =
-        selectedConnectorType === "-1" ? "" : "&connector-type-id=" + selectedConnectorType
-
-    // const url =
-    //     `https://chargepoints.dft.gov.uk/api/retrieve/registry/?format=json&dist=${dist}&long=${lng}&lat=${lat}` +
-    //     connectorFilter
-
-    const url = '/get-chargers?' + `&dist=${dist}&long=${lng}&lat=${lat}` + connectorFilter
-
-    onload = (http, e) => {
-        try {
-            if (handleHttpError(http)) return
-
-            let response = http.response
-
-            let devices = response.ChargeDevice
-
-            return response
-
-            // for (let i = 0; i < devices.length; i++) {
-            //     const device = devices[i]
-            //     console.log(device)
-            // }
-        } catch (err) {
-            if (err instanceof SyntaxError) {
-                console.log("API response object, is no valid JSON object")
-            } else if (err instanceof TypeError) {
-                console.log("No Chargedevices provided by the API")
-            } else {
-                console.log(err)
-            }
-        }
-    }
-
-    apicall_get(url, onload, handleUnexpectedError)
-}
 
 /**
  * Delets all markers from the map

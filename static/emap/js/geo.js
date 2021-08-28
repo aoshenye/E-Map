@@ -14,7 +14,7 @@ function initMap() {
     lng: -0.24594910113586943,
   }
 
-  const map = new google.maps.Map(document.getElementById("map"), {
+  map = new google.maps.Map(document.getElementById("map"), {
     center: london,
     zoom: 13,
     mapTypeId: "roadmap",
@@ -24,7 +24,7 @@ function initMap() {
   // Create the search box and link it to the UI element.
   const input = document.getElementById("pac-input");
   const searchBox = new google.maps.places.SearchBox(input);
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(input);
   // Bias the SearchBox results towards current map's viewport.
   map.addListener("bounds_changed", () => {
     searchBox.setBounds(map.getBounds());

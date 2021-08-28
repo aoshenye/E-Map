@@ -31,18 +31,28 @@
 <body>
     <h3>FIND YOUR CHARGE POINT</h3>
 
-
-    <select class="form-select mt-3 mb-3" aria-label="Charger Type Selection" id="chargertype_select"
-        onchange="typeSelected(this)">
+<div class="container">
+    <select 
+        class="form-select mt-3 mb-3" 
+        aria-label="Charger Type Selection" 
+        id="chargertype_select"
+        onchange="typeSelected(this)"
+    >
         <option value="-1" selected>All Connector Types</option>
     </select>
 
-
     <!--The div element for the map -->
 
-    <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+    <input 
+        id="pac-input"
+        class="controls" 
+        type="text" 
+        placeholder="Search Box" 
+    />
     <div id="map"></div>
 
+</div>
+    
     <footer>
         <p>
 

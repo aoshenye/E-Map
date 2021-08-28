@@ -9,16 +9,16 @@
         float: none;
         display: table-cell
     }
-
+/* 
     #map {
         height: 100%;
         border-radius: 15px;
-    }
-
+    } */
+/* 
     #map-div,
     #map-section {
         height: 500px;
-    }
+    } */
 
     #content {
         display: flex;
@@ -26,17 +26,16 @@
         /* min-width: 1300px; */
         margin: 0;
     }
-
+/* 
     #map {
         margin-left: 5%;
-    }
+    } */
 }
 
 
 @media only screen and (max-width: 600px) {
     body {
         overflow-x: hidden;
-
     }
 
     #menuButton {
@@ -60,6 +59,12 @@
 }
 
 /*--------------------------------------------Map*/
+
+.controls {
+    width: 300px;
+    height: 30px;
+    margin-bottom: 5px;
+}
 
 #menuButton {
     outline: none;
