@@ -61,9 +61,9 @@
 /*--------------------------------------------Map*/
 
 .controls {
-    width: 300px;
+    width: 215px;
     height: 30px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
 }
 
 #menuButton {
