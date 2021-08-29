@@ -1,4 +1,4 @@
-var map
+let map, infoWindow
 var autocomplete
 var currentLocation
 var infowindowContent
@@ -20,6 +20,8 @@ function initMap() {
     zoom: 13,
     mapTypeId: "roadmap",
   });
+  infoWindow = new google.maps.InfoWindow();
+
 
   //====================SEARCH BOX===========================
   // Create the search box and link it to the UI element.
@@ -92,6 +94,10 @@ function initMap() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           }
+          infoWindow.setPosition(pos);
+          infoWindow.setContent("Location found.");
+          infoWindow.open(map);
+          map.setCenter(pos);
 
           currentLocation = pos
           // adds async marker
