@@ -3,15 +3,15 @@
 {% load static %}
 
 <div class="content-section">
-    <h3 align="center">{{title}}</h3>
-    <legend class="border-bottom mb-4">Join Today</legend>
+    <h2  class="pt-2 text-center">{{title}}</h2>
+    <legend class="border-bottom mb-4 text-center">Join Today</legend>
  
     {% include "components/form.html" with form=form btn_label=btn_label title=title %}
 </div>
 
 
 
-<div class="border-top pt-3">
+<div class="text-center border-top pt-2 pb-2">
     <small class="text-muted">
         Need An Account? <a class="ml-2" href="/sign-up">Sign Up Now</a>
     </small>

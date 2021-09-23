@@ -12,3 +12,4 @@ install npm
 
 install all dependencies:
 npm install 
+pip -r install requirements.txt

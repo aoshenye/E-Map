@@ -5,13 +5,17 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" media="screen" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" media="screen"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css"
+          rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"/>
 
 
     <style>
@@ -24,9 +28,10 @@
 
 
         }
+
         body {
-        background-color: #C1AFD2;
-    }
+            background-color: #C1AFD2;
+        }
     </style>
 
     <title>{% block title %}Home{% endblock %}</title>
@@ -34,61 +39,69 @@
 </head>
 
 <body>
-    <header>
-        <div class="collapse" id="navbarToggleExternalContent">
-            <div class="p-4">
-
-                <nav class="navbar navbar-expand-lg navbar-dark">
-
-                    <div class="navbar-nav">
-                        {% if user.is_authenticated %}
-                        <span class="text" style="text-align: center;">
-                            <a class="nav-item nav-link" id="home" href="/">Profile</a>
-                            <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-                            <a class="nav-item nav-link" id="aboutus" href="/aboutus">About us</a>
-                            {% else %}
-                            <a class="nav-item nav-link" id="login" href="/login">Login</a>
-                            <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
-                            <a class="nav-item nav-link" id="aboutus" href="/aboutus">About us</a>
-                            {% endif %}
-                        </span>
-                    </div>
+<header>
+    <nav  class="navbar navbar-expand-lg navbar-dark bg-dark" >
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'ConnectVolt_Symbol-White.png' %}" alt="" width="30" height="24">
+            </a>
+            <button class="navbar-toggler float-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav nav-fill w-100">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" id="home" href="/">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="logout" href="/logout">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="aboutus" href="/aboutus">About us</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class=" nav-link" id="login" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class=" nav-link" id="signUp" href="/sign-up">Sign Up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class=" nav-link" id="aboutus" href="/aboutus">About us</a>
+                        </li>
+                    {% endif %}
+                </ul>
             </div>
-            </nav>
         </div>
-        <nav class="navbar navbar-dark">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+    </nav>
+</header>
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger alter-dismissable fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-bs-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-        </nav>
-    </header>
+        {% else %}
+            <div class="alert alert-success alter-dismissable fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
 
-     {% if messages %} 
-        {% for message in messages %} 
-            {% if message.tags == 'error' %}
-                <div class="alert alert-danger alter-dismissable fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% else %}
-                <div class="alert alert-success alter-dismissable fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            {% endif %} 
-        {% endfor %} 
-    {% endif %}
+<div class="container">
+    {% block content %}
+    {% endblock %}
 
-    <div class="container">
-        {%block content%}
-        {%  endblock %}
-
-    </div>
+</div>
 </body>
 </html>
