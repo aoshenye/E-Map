@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 from django.contrib.auth.forms import UserCreationForm, UserModel, UsernameField
 from django.contrib.auth.password_validation import validate_password
 from django import forms
 from django.forms.widgets import TextInput
+=======
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
+>>>>>>> e808cc0dea400d4a7fae105d68f3d1a90f6868f0
 from django.conf import settings
 
 from .models import CustomUser
@@ -9,6 +14,7 @@ from .models import CustomUser
 class SignUpForm(UserCreationForm):
     class Meta:
         model = CustomUser
+<<<<<<< HEAD
         fields = ('first_name', 'last_name', "email")
 
 class ResetPasswordForm(forms.Form):
@@ -34,3 +40,6 @@ class ResetPasswordForm(forms.Form):
          'required': 'required'}, ), validators=[validate_password])
     password2.label= 'Confirm New Password'
 
+=======
+        fields = ('first_name', 'last_name', "email")
+>>>>>>> e808cc0dea400d4a7fae105d68f3d1a90f6868f0

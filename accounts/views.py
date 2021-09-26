@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate
+<<<<<<< HEAD
 from django.contrib import messages
 from .forms import ResetPasswordForm, SignUpForm
 from .models import CustomUser
+=======
+from .forms import SignUpForm
+>>>>>>> e808cc0dea400d4a7fae105d68f3d1a90f6868f0
 from django.contrib import messages
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -52,6 +56,7 @@ def sign_up(request, *args, **kwargs):
         'btn_label': 'Submit'
     }
     return render(request, 'accounts/sign_up.html', context)
+<<<<<<< HEAD
 
 
 
@@ -91,3 +96,5 @@ def password_reset(request):
         return render(request, 'accounts/password_reset.html', context)
     return render(request, 'accounts/password_reset.html', {'form':form})
 
+=======
+>>>>>>> e808cc0dea400d4a7fae105d68f3d1a90f6868f0
