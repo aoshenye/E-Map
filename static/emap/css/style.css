@@ -1,5 +1,15 @@
 /*--------------------------------------------Media Queries*/
-@media(min-width: 992px) {
+@font-face {
+    font-family: 'Gotham Bold';
+    src: url('fonts/GOTHAM-BOLD.TTF') format('truetype');
+}
+
+@font-face {
+    font-family: 'Gotham Book';
+    src: url('fonts/GOTHAM-BOOKITALIC.OTF') format('truetype');
+}
+
+@media (min-width: 992px) {
     #menuButton {
         display: none;
     }
@@ -9,27 +19,28 @@
         float: none;
         display: table-cell
     }
-/* 
-    #map {
-        height: 100%;
-        border-radius: 15px;
-    } */
-/* 
-    #map-div,
-    #map-section {
-        height: 500px;
-    } */
 
+    /*
+        #map {
+            height: 100%;
+            border-radius: 15px;
+        } */
+    /*
+        #map-div,
+        #map-section {
+            height: 500px;
+        } */
     #content {
         display: flex;
         padding: 0;
         /* min-width: 1300px; */
         margin: 0;
     }
-/* 
-    #map {
-        margin-left: 5%;
-    } */
+
+    /*
+        #map {
+            margin-left: 5%;
+        } */
 }
 
 
@@ -100,7 +111,6 @@
 }
 
 
-
 body {
     padding: 0;
     margin: 0
@@ -137,8 +147,8 @@ body {
 
 .select {
     -webkit-appearance: none;
-    appearance: none;       /* Remove default arrow */
- }
+    appearance: none; /* Remove default arrow */
+}
 
 .checkBox {
     color: white
@@ -154,6 +164,7 @@ body {
     flex: 0 1 auto;
     padding: 0;
 }
+
 #directionsPanel > div {
     padding: 0.5rem;
 }
@@ -166,4 +177,39 @@ body {
     height: 100%;
     box-sizing: border-box;
     overflow: auto;
+}
+
+h1 {
+    font-family: "Gotham Bold";
+    color: #1A1A1A;
+}
+
+h2 {
+    font-family: "Gotham Bold";
+    color: #1A1A1A;
+}
+
+h3 {
+    font-family: "Gotham Bold";
+    color: #1A1A1A;
+}
+
+h4 {
+    font-family: "Gotham Bold";
+    color: #1A1A1A;
+}
+
+h5 {
+    font-family: "Gotham Bold";
+    color: #1A1A1A;
+}
+
+h6 {
+    font-family: "Gotham Bold";
+    color: #1A1A1A;
+}
+
+p {
+    font-family: "Gotham Book";
+    color: #1A1A1A;
 }
