@@ -34,3 +34,4 @@ class ResetPasswordForm(forms.Form):
          'required': 'required'}, ), validators=[validate_password])
     password2.label= 'Confirm New Password'
 
+

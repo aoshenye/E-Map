@@ -20,6 +20,7 @@ from emap.views import home, aboutus, get_chargers, get_connector_types
 from accounts.views import login_view, logout_view, sign_up, password_reset
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -34,5 +35,4 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('sign-up/', sign_up, name='signup'),
     path('password_reset/', password_reset, name='password_reset'),
-
 ]

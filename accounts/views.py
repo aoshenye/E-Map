@@ -4,8 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from .forms import ResetPasswordForm, SignUpForm
 from .models import CustomUser
-from django.contrib import messages
-from werkzeug.security import generate_password_hash, check_password_hash
+
 
 
 def login_view(request, *args, **kwargs):
@@ -54,7 +53,6 @@ def sign_up(request, *args, **kwargs):
     return render(request, 'accounts/sign_up.html', context)
 
 
-
 def password_reset(request):
     form=ResetPasswordForm()
     if request.method=='POST':
@@ -90,4 +88,5 @@ def password_reset(request):
         }
         return render(request, 'accounts/password_reset.html', context)
     return render(request, 'accounts/password_reset.html', {'form':form})
+
 
