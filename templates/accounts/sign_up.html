@@ -1,14 +1,18 @@
 {% extends "emap/base.html" %} {% block title %}Sign up{% endblock %}
-{%block content%}
+{% load static %}
+{% block content %}
 
-<div class="content-section">
-    <h3 align="center">{{title}}</h3>
-    <legend class="border-bottom mb-4">Join Today</legend>
-    {% include "components/form.html" with form=form btn_label=btn_label title=title %}
-    <div class="border-top pt-3">
-        <small class="text-muted">
-            Already Have An Account? <a class="ml-2" href="/login">Log In</a>
-        </small>
+    <div class="content-section">
+        <h2 align="center" class="mt-3">{{ title }}</h2>
+        <legend class="border-bottom mb-4 text-center">Join Today</legend>
+        {% include "components/form.html" with form=form btn_label=btn_label title=title %}
+        <div class="border-top pt-2 pb-2">
+            <small class="text-muted ">
+                Already Have An Account? <a class="ml-2" href="/login">Log In</a>
+            </small>
+        </div>
     </div>
-</div>
-{%  endblock %}
+    <h2 style="text-align:center">
+        <img class=" card-img-top" src="{% static 'banner.png' %}" alt="" style="width:100%">
+    </h2>
+{% endblock %}
